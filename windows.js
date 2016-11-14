@@ -17,7 +17,7 @@
    }
 
 
-   function createWindow(id,title,contentHTML,startHidden)
+   function createWindow(id,title,contentHTML)
    {
       var html='<div class="window" id="'+htmlspecialchars(id)+'" style="z-index:10; opacity:1; ">'
       +'<div class="window-title-button window-close"><i class="fa fa-times"></i></div>'
@@ -55,25 +55,51 @@
          var win=ui.helper;
          win.find('.content').css('display','block');
          win.css('opacity',1);
+         win.removeData('maximized');
+         saveWindowPos(win);
       }});
 
       win.resizable({'minHeight':150, 'minWidth':200, 'containment':'parent',
       'stop':function(ev,ui)
       {
-         ui.helper.removeData('restore');
+         var win=ui.helper;
+         saveWindowPos(win);
+         win.removeData('maximized');
       }});
 
       win.find('.header').on('dblclick',maxWindow);
+      if (getSavedWindowPos(win)) restoreWindowPos(win,true);
+      else saveWindowPos(win);
 
-      if (startHidden) win.css({'opacity':0, 'display':'none'});
       return win;
+   }
+
+
+   function saveWindowPos(win)
+   {
+      var id=win.attr('id');
+      localStorage.setItem('window-saved-position-'+id,serialize({'top':win.position().top,'left':win.position().left,'width':win.outerWidth(),'height':win.outerHeight()}));
+   }
+
+
+   function getSavedWindowPos(win)
+   {
+      var id=win.attr('id');
+      return unserialize(localStorage.getItem('window-saved-position-'+id));
+   }
+
+
+   function restoreWindowPos(win,noEffect)
+   {
+      var pos=getSavedWindowPos(win);
+      setWindowPos(win,pos.top,pos.left,pos.width,pos.height,noEffect);
    }
 
 
    function closeWindow(id)
    {
       var win=getEl(id,'window');
-      win.css('opacity',0).addClass('closed');
+      win.css('opacity',0).addClass('closed').removeClass('topmost');
       setTimeout(function(){win.css('display','none')},g.effectDuration);
       update_taskbar();
    }
@@ -83,19 +109,18 @@
    {
       var win=getEl(ev,'window');
       var desk=$('#desktop');
-      var res=win.data('restore');
 
       putToFront(win);
-
-      if (res)
+      if (win.data('maximized'))
       {
-         setWindowPos(win,res.top,res.left,res.width,res.height);
-         win.removeData('restore');
+         restoreWindowPos(win);
+         win.removeData('maximized');
       }
       else
       {
-         win.data('restore',{top:win.position().top,left:win.position().left,width:win.width(),height:win.height()});
+         saveWindowPos(win);
          setWindowPos(win,0,0,desk.width(),desk.height());
+         win.data('maximized',true);
       }
    }
 
@@ -135,6 +160,18 @@
       var desk=$('#desktop');
       var n=windows.length;
 
+      if (desk.data('tiled'))
+      {
+         for (var i=0;i<n;i++)
+         {
+            var win=$(windows[i]);
+            restoreWindowPos(win);
+            win.removeData('maximized');
+         }
+         desk.removeData('tiled');
+         return;
+      }
+
       var inrow=Math.ceil(Math.sqrt(n));
       var rows=Math.ceil(n/inrow);
 
@@ -150,7 +187,9 @@
          var top=Math.floor(i/inrow)*h;
 
          setWindowPos(win,top+pad,left+pad,w-pad,h-pad);
-         win.removeData('restore');
+         win.removeData('maximized');
       }
+
+      desk.data('tiled',true);
    }
 

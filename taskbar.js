@@ -15,12 +15,10 @@
          if (ex.length==0) { ex=$('<li class="taskname" data-windowid="'+id+'"></li>'); $('#taskbar').append(ex); }
 
          if (win.hasClass('closed')) ex.addClass('closed');
-         else
-         {
-            ex.removeClass('closed');
-            if (win.hasClass('topmost')) ex.addClass('active');
-            else ex.removeClass('active');
-         }
+         else ex.removeClass('closed');
+
+         if (win.hasClass('topmost')) ex.addClass('active');
+         else ex.removeClass('active');
 
          ex.text(win.find('.header').text());
       }
