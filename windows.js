@@ -68,6 +68,7 @@
       win.find('.header').on('dblclick',maxWindow);
 
       if (startHidden) win.css({'opacity':0,'display':'none'});
+      return win;
    }
 
 
