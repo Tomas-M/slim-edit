@@ -25,6 +25,7 @@
 
 </head>
 <body>
+   <input id=hiddeninput style="position: fixed; top:-100px; left: -100px; opacity:1;">
 
    <div class=topmenu>
       <li id=menubut><i class="fa fa-bars"></i></li><span id=taskbar></span>

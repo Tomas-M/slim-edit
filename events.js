@@ -17,5 +17,6 @@
 
     $(document).on('resize','.window',cellMoved);
 
+    $(window).on('blur',function(ev){ $('#hiddeninput').focus(); });
 
   });
