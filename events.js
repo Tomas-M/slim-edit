@@ -15,4 +15,7 @@
     $(document).on('mousedown','.cell',cellFocus);
     $(document).on('blur','.cell',cellBlur);
 
+    $(document).on('resize','.window',cellMoved);
+
+
   });

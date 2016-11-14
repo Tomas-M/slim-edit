@@ -99,7 +99,7 @@ body, div, span, li
 
 .grid { width: 100%; border-collapse: collapse; }
 .grid td { border: 1px solid #ddd; line-height: 30px; height: 30px; padding: 0px 0px 0px 0px; }
-.grid tr:first-child td { padding: 0px 12px 0px 12px; font-weight: bold }
+.grid tr:first-child td { padding: 0px 12px 0px 12px; font-weight: bold; cursor: default; }
 .grid tr td:first-child { border-left: 1px solid transparent; }
 .grid tr td:last-child { border-right: 1px solid transparent; }
 .grid tr:first-child td { border-top: 1px solid transparent; border-bottom: 1px solid #aaa; white-space: nowrap; overflow: hidden; }
@@ -132,6 +132,7 @@ body, div, span, li
    color: #222;
    font-weight: bold;
    line-height: 50px;
+   transition: background-color 400ms;
 }
 .topmenu li:hover
 {

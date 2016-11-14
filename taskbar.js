@@ -3,15 +3,25 @@
    function update_taskbar()
    {
       var windows=$('.window');
-      var tasks='';
-      var win;
+      var win,id,ex;
 
       for (var i=0; i<windows.length; i++)
       {
          win=$(windows[i]);
-         tasks+='<li class="taskname '+(win.hasClass('closed')?'closed':win.hasClass('topmost')?'active':'')
-              +'" data-window-id="'+htmlspecialchars(win.attr('id'))+'">'+htmlspecialchars(win.find('.header').text())+'</li>';
-      }
+         id=win.attr('id');
 
-      $('#taskbar').html(tasks);
+         ex=$('#taskbar').find('li[data-windowid="'+id+'"]');
+
+         if (ex.length==0) { ex=$('<li class="taskname" data-windowid="'+id+'"></li>'); $('#taskbar').append(ex); }
+
+         if (win.hasClass('closed')) ex.addClass('closed');
+         else
+         {
+            ex.removeClass('closed');
+            if (win.hasClass('topmost')) ex.addClass('active');
+            else ex.removeClass('active');
+         }
+
+         ex.text(win.find('.header').text());
+      }
    }

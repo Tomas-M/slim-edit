@@ -3,7 +3,7 @@
    {
       if ($(ev.target).hasClass('window-title-button')) return;
       if ($(ev.target).closest('.window-title-button').length>0) return;
-      if ($(ev.target).hasClass('taskname')) ev=$(ev.target).data('window-id');
+      if ($(ev.target).hasClass('taskname')) ev=$(ev.target).data('windowid');
 
       var win=getEl(ev,'window');
       var max=11;
@@ -38,13 +38,12 @@
 
       $('#desktop').append(html);
 
-      setWindowPos(id,0,0,0,0,true);
-      setWindowPosAuto(id);
+      setWindowPosAuto(id,true);
       putToFront(id);
 
       win=getEl(id);
 
-      win.draggable({'scroll':false, 'containment':'parent',
+      win.draggable({'scroll':false, 'containment':'parent', 'distance':4,
       'start':function(ev,ui)
       {
          var win=ui.helper;
@@ -56,18 +55,17 @@
          var win=ui.helper;
          win.find('.content').css('display','block');
          win.css('opacity',1);
-      }
-      });
+      }});
 
-      win.resizable({'minHeight': 150, 'minWidth': 200, 'containment':'parent',
-         'stop':function(ev,ui)
-         {
-            ui.helper.removeData('restore');
-         }});
+      win.resizable({'minHeight':150, 'minWidth':200, 'containment':'parent',
+      'stop':function(ev,ui)
+      {
+         ui.helper.removeData('restore');
+      }});
 
       win.find('.header').on('dblclick',maxWindow);
 
-      if (startHidden) win.css({'opacity':0,'display':'none'});
+      if (startHidden) win.css({'opacity':0, 'display':'none'});
       return win;
    }
 
@@ -114,7 +112,7 @@
    }
 
 
-   function setWindowPosAuto(id)
+   function setWindowPosAuto(id,noEffect)
    {
       var d=40;
       var sw=$(window).width();
@@ -125,7 +123,7 @@
       if (g.nextWindowPos.left+w>sw) g.nextWindowPos.left=60;
       if (g.nextWindowPos.top+h>sh) g.nextWindowPos.top=60;
 
-      setWindowPos(id,g.nextWindowPos.top,g.nextWindowPos.left,w,h);
+      setWindowPos(id,g.nextWindowPos.top,g.nextWindowPos.left,w,h,noEffect);
       g.nextWindowPos.top+=d;
       g.nextWindowPos.left+=d;
    }

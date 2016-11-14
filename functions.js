@@ -1,5 +1,6 @@
 
    // convert string so it can be printed in html safely
+   //
    function htmlspecialchars(text)
    {
       if (typeof text === "undefined") return "";
@@ -18,6 +19,7 @@
 
 
    // get element by either id, event, or combination with closest class
+   //
    function getEl(par,closestClass)
    {
       if (typeof par === "undefined") return false;
@@ -28,3 +30,35 @@
    }
 
 
+   // parse json string into object
+   //
+   function JSON_fromString(str)
+   {
+      var res;
+      try { res=JSON.parse(str); } catch(err) { return {} };
+      return res;
+   }
+
+
+   // stringify object to string
+   //
+   function JSON_toString(obj)
+   {
+      return JSON.stringify(obj);
+   }
+
+
+   // serialize arbitrary data to special base64
+   //
+   function serialize(t)
+   {
+      return btoa(unescape(encodeURIComponent(JSON_toString(t)))).replace(/[/]/g,"_").replace(/[+]/g,"-").replace(/[=]/g,"");
+   }
+
+
+   // un serialize special base64 to data
+   //
+   function unserialize(t)
+   {
+      return JSON_fromString(decodeURIComponent(escape(atob(t.replace(/[_]/g,"/").replace(/[-]/g,"+")))));
+   }

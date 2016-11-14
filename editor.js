@@ -109,12 +109,7 @@
       {
          $("#optionsinside").html(html);
 
-         options=$("#options");
-         options.width(cell.width()+22);
-         options.removeClass('autoanimated');
-         options.css({'display':'block','opacity':0,'left':cell.offset().left-1, 'top':cell.offset().top-21,'z-index':cell.closest('.window').css('z-index')+1});
-
-         options.off().on('click',function(ev)
+         $("#options").data('cell',cell).off().on('click',function(ev)
          {
             var t=$(ev.target);
             if (!t.hasClass('option')) return;
@@ -122,19 +117,41 @@
             if (typeof set === "undefined") set=t.text();
             var o=$('#options');
             o.data('cell').val(set);
-            o.css('display','none');
+            o.css('display','none').removeData('cell');
             ev.preventDefault();
          });
 
-         options.data('cell',cell);
-         setTimeout(function(){ options.addClass('autoanimated'); options.css('opacity',1);},0);
+         refreshOptionsPosition();
       }
+   }
+
+
+   function refreshOptionsPosition(noEffect)
+   {
+      var options=$('#options');
+      var cell=options.data('cell');
+      if (!cell) return;
+
+      options.width(cell.width()+22);
+      options.removeClass('autoanimated');
+      options.css({'display':'block','opacity':0,'left':cell.offset().left-1, 'top':cell.offset().top-21,'z-index':cell.closest('.window').css('z-index')+1});
+
+      if (noEffect)
+         options.css('opacity',1);
+      else
+         setTimeout(function(){ options.addClass('autoanimated'); options.css('opacity',1);},0);
    }
 
 
    function cellBlur(ev)
    {
       if ($(ev.relatedTarget).closest('#options').length==0)
-         $('#options').css('display','none');
+         $('#options').css('display','none').removeData('cell');
       else $(ev.relatedTarget).click();
+   }
+
+
+   function cellMoved()
+   {
+      refreshOptionsPosition(true);
    }
