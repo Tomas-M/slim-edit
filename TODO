@@ -1,0 +1,7 @@
+poradne vyresit options - ted se ukaze 2x, jednou po mousedown a podruhe po mouseup
+okno fokus out by melo zrusit select
+select by melo zvyraznit aktualni hodnotu po rozkliknuti a naskrolovat na ni
+ovladani klavesama up/dn
+
+dlazdice by si meli zapamatovat puvodni pozici (manualni umisteni okna a velikosti) a umet se do ni vratit, pro vsechny okna
+
