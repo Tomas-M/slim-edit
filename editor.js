@@ -98,7 +98,7 @@
       if (options)
       {
          options=options.split(',');
-         for (var i=0; i<options.length; i++) html+='<a href=# class=option>'+htmlspecialchars(options[i])+'</a>';
+         for (var i=0; i<options.length; i++) html+='<a href=# class="option '+(cell.val()==options[i]?"selected":"")+'">'+htmlspecialchars(options[i])+'</a>';
       }
 
       // if link exists, it overides any hardcoded options
@@ -106,12 +106,12 @@
       {
          link=link.split(',');
          options=autosuggest(link[0],link[1],link.slice(2));
-         for (i in options) html+='<a href=# data-set="'+htmlspecialchars(i)+'" class=option>'+htmlspecialchars(options[i])+'</a>';
+         for (i in options) html+='<a href=# data-set="'+htmlspecialchars(i)+'" class="option '+(cell.val()==i?"selected":"")+'">'+htmlspecialchars(options[i])+'</a>';
       }
 
       if (html)
       {
-         $("#optionsinside").html(html);
+         $("#optionsinside").html(html).scrollTop(0);
 
          $("#options").data('cell',cell).off().on('click',function(ev)
          {
@@ -126,6 +126,14 @@
             cellSave.call(cell);
             ev.preventDefault();
          });
+
+         $('.option').on('mouseover',function(){ $('.option.selected').removeClass('selected'); });
+
+         // scroll to selected value, if any
+         var scroll=$('.option.selected').position(); if ('top' in scroll) scroll=scroll.top; else scroll=0;
+         $('#optionsinside').scrollTop(scroll-$('#options').height()/2);
+
+         // todo: keyboard navigation
 
          refreshOptionsPosition();
       }
@@ -173,6 +181,7 @@
 
       var keys=g.tables[tbl];
       for (var k in keys) { if (col--<1) break; }
+      if (!g.data[tbl]) g.data[tbl]=[];
       if (!g.data[tbl][row]) g.data[tbl][row]={};
       g.data[tbl][row][k]=cell.val();
 
