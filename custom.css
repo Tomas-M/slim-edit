@@ -1,5 +1,3 @@
-.ui-resizable-handle { opacity: 0; }
-
 .window .content::-webkit-scrollbar { width: 6px; height: 6px; }
 .window .content::-webkit-scrollbar-track { background: #eeeeee; }
 .window .content::-webkit-scrollbar-thumb { background: #aaaaaa; }
@@ -89,7 +87,7 @@ body, div, span, li
 .content
 {
    padding: 10px 14px 10px 14px;
-   height: calc(100% - 60px);
+   height: calc(100% - 70px);
    overflow-y: auto;
    overflow-y: overlay;
    clear: both;

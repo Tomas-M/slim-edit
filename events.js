@@ -11,11 +11,10 @@
     $(document).on('click','#menubut',tileWindows);
 
     $(document).on('change','.cell',cellValidate);
+    $(document).on('change','.cell',cellSave);
     $(document).on('focus','.cell',cellFocus);
     $(document).on('mousedown','.cell',cellFocus);
     $(document).on('blur','.cell',cellBlur);
-
-    $(document).on('resize','.window',cellMoved);
 
     $(window).on('blur',function(ev){ $('#hiddeninput').focus(); });
 

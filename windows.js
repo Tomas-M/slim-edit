@@ -67,6 +67,8 @@
          win.removeData('maximized');
       }});
 
+      win.find('.content').on('scroll',cellMoved);
+
       win.find('.header').on('dblclick',maxWindow);
       if (getSavedWindowPos(win)) restoreWindowPos(win,true);
       else saveWindowPos(win);
@@ -78,7 +80,13 @@
    function saveWindowPos(win)
    {
       var id=win.attr('id');
-      localStorage.setItem('window-saved-position-'+id,serialize({'top':win.position().top,'left':win.position().left,'width':win.outerWidth(),'height':win.outerHeight()}));
+      localStorage.setItem('window-saved-position-'+id,serialize(
+      {
+         'top':win.position().top,
+         'left':win.position().left,
+         'width':win.outerWidth(),
+         'height':win.outerHeight()
+      }));
    }
 
 

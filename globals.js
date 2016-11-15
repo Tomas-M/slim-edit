@@ -11,4 +11,4 @@
    // definition of tables and optionally data
    // you must define properties in config.js
    g.tables={};
-   g.tabledata={};
+   g.data={};

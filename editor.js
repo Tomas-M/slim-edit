@@ -13,14 +13,17 @@
    }
 
 
-   function genTableGridHTML(prop,rows)
+   function genTableGridHTML(tbl)
    {
       var i,j,n;
-      var emptyrow='<tr>';
+      var emptyrow='<tr class=emptyrow>';
       var underline='<tr>';
       var thead='<tr class=tableheader>';
       var data='';
       var html='';
+
+      var prop=g.tables[tbl];
+      var rows=g.data[tbl];
 
       n=0; for (i in prop) n++;
 
@@ -37,6 +40,8 @@
 
       for (i in rows)
       {
+         if (!rows[i]) { data+=emptyrow; continue; }
+
          data+='<tr>';
          for (j in prop)
          {
@@ -45,7 +50,7 @@
          data+='</tr>';
       }
 
-      html='<table border=0 cellspacing=0 cellpadding=0 class=grid>'+thead+data;
+      html='<table border=0 data-table="'+serialize(tbl)+'" data-emptyrow="'+serialize(emptyrow)+'" cellspacing=0 cellpadding=0 class=grid>'+thead+data;
       for (j=0; j<4; j++) html+=emptyrow; // add some empty rows at the end
       html+='</table>';
 
@@ -70,11 +75,11 @@
 
       for (i=0; i<g.data[lookupTable].length; i++)
       {
-         row=g.data[lookupTable][i];
+         row=g.data[lookupTable][i]; if (!row) continue;
          hint=[];
          for(j=0; j<hintColumns.length; j++) hint.push(row[hintColumns[j]]);
          if (hintColumns.length==0) hint=[row[column]];
-         ret[row[column]]=hint.join(" - ");
+         if (row[column]) ret[row[column]]=hint.join(" - ");
       }
 
       return ret;
@@ -101,9 +106,8 @@
       {
          link=link.split(',');
          options=autosuggest(link[0],link[1],link.slice(2));
-         for (i in options) html+='<a href=# data-set='+htmlspecialchars(i)+' class=option>'+htmlspecialchars(options[i])+'</a>';
+         for (i in options) html+='<a href=# data-set="'+htmlspecialchars(typeof i)+'" class=option>'+htmlspecialchars(options[i])+'</a>';
       }
-
 
       if (html)
       {
@@ -116,8 +120,10 @@
             var set=t.data('set');
             if (typeof set === "undefined") set=t.text();
             var o=$('#options');
-            o.data('cell').val(set);
+            var cell=o.data('cell');
+            cell.val(set);
             o.css('display','none').removeData('cell');
+            cellSave.call(cell);
             ev.preventDefault();
          });
 
@@ -154,4 +160,22 @@
    function cellMoved()
    {
       refreshOptionsPosition(true);
+   }
+
+
+   function cellSave(ev)
+   {
+      var cell=$(this);
+      var tbl=unserialize(cell.closest('.grid').data('table'));
+      var row=cell.closest('tr').index()-1; // first row is header
+      var col=cell.closest('td').index();
+      var grid=cell.closest('.grid');
+
+      var keys=g.tables[tbl];
+      for (var k in keys) { if (col--<1) break; }
+      if (!g.data[tbl][row]) g.data[tbl][row]={};
+      g.data[tbl][row][k]=cell.val();
+
+      cell.closest('tr').removeClass('emptyrow');
+      if (grid.find('.emptyrow').length<2) grid.append(unserialize(grid.data('emptyrow')));
    }

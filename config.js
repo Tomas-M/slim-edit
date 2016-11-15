@@ -91,12 +91,11 @@
          },
          "Name": {
             "datatype": "text",
-            "options": "test1,test,test3,test2,test3,test2,test3,test2,test3,test2,test3"
          },
          "Type": {
             "datatype": "text",
             "width": "100px",
-            "options": "test1,test2"
+            "options": "random,delegated,strange"
          },
          "Description": {
             "datatype": "text"
@@ -166,7 +165,7 @@
            "Standard ID":3
          },{ "ID":2,
            "Name":"two",
-           "Type":"something",
+           "Type":"strange",
            "Description":"Service two",
            "Standard ID":23
          },{ "ID":3,
@@ -176,12 +175,12 @@
            "Standard ID":12
          },{ "ID":4,
            "Name":"four",
-           "Type":"something",
+           "Type":"strange",
            "Description":"Service four",
            "Standard ID":1
          },{ "ID":5,
            "Name":"five",
-           "Type":"color",
+           "Type":"strange",
            "Description":"Service five",
            "Standard ID":4
          }
