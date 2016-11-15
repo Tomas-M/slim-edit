@@ -9,6 +9,7 @@
     $(document).on('click','.window-maximize',maxWindow);
     $(document).on('click','.taskname',putToFront);
     $(document).on('click','#menubut',tileWindows);
+    $(document).on('resize','.window',cellMoved);
 
     $(document).on('change','.cell',cellValidate);
     $(document).on('change','.cell',cellSave);
