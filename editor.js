@@ -106,7 +106,7 @@
       {
          link=link.split(',');
          options=autosuggest(link[0],link[1],link.slice(2));
-         for (i in options) html+='<a href=# data-set="'+htmlspecialchars(typeof i)+'" class=option>'+htmlspecialchars(options[i])+'</a>';
+         for (i in options) html+='<a href=# data-set="'+htmlspecialchars(i)+'" class=option>'+htmlspecialchars(options[i])+'</a>';
       }
 
       if (html)
