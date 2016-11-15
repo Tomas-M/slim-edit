@@ -23,3 +23,9 @@
          ex.text(win.find('.header').text());
       }
    }
+
+
+   function menuToggle()
+   {
+      
+   }

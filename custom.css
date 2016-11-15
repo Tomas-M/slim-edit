@@ -103,7 +103,7 @@ body, div, span, li
 .grid tr:first-child td { border-top: 1px solid transparent; border-bottom: 1px solid #aaa; white-space: nowrap; overflow: hidden; }
 .grid tr:last-child td { border-bottom: 1px solid transparent; }
 
-.topmenu
+.controls
 {
    line-height: 50px;
    background-color: rgba(255,255,255,0.3);
@@ -122,7 +122,7 @@ body, div, span, li
 }
 
 
-.topmenu li
+.controls li
 {
    padding: 0px 20px 0 20px;
    display: inline-block;
@@ -132,31 +132,39 @@ body, div, span, li
    line-height: 50px;
    transition: background-color 400ms;
 }
-.topmenu li:hover
+
+.controls .right
+{
+   float: right;
+   border-left: 1px solid rgba(200,200,200,0.3);
+   border-right: 0;
+}
+
+.controls li:hover
 {
    background-color: rgba(255,255,255,0.5);
    color: #000 !important;
 }
 
-.topmenu li i.fa {
-   font-size: 24px;
+.controls li i.fa {
+   font-size: 28px;
    position: relative;
-   top: 4px;
+   top: 6px;
 }
 
-.topmenu li.active
+.controls li.active
 {
    background-color: rgba(255,255,255,0.7);
    color: #000;
 }
 
-.topmenu li.closed
+.controls li.closed
 {
    color: rgba(34,34,34,0.3);
 }
 
-.window-close { padding: 7px 13px 12px 8px; font-size: 13px; }
-.window-maximize { padding: 9px 7px 12px 10px; font-size: 10px; }
+.window-close { padding: 6px 13px 12px 6px; font-size: 14px; }
+.window-maximize { padding: 9px 6px 12px 10px; font-size: 10px; }
 .window-title-button { float: right; cursor: pointer; color: #aaa; }
 .window-title-button:hover { color: #0086E5; }
 .window-title-button:active { color: #000000; }
@@ -243,3 +251,5 @@ body, div, span, li
    background-color: #0086E5;
    color: #ffffff;
 }
+
+.taskbar .menuright

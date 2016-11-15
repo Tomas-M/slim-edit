@@ -28,8 +28,9 @@
 <body>
    <input id=hiddeninput style="position: fixed; top:-100px; left: -100px; opacity:1;">
 
-   <div class=topmenu>
-      <li id=menubut><i class="fa fa-bars"></i></li><span id=taskbar></span>
+   <div class=controls>
+      <li id=menubut><i class="fa fa-bars"></i></li><span id=taskbar></span><!--
+   --><li id=tilebut class=right><i class="fa fa-th"></i></li><li id=userbut class=right><i class="fa fa-user-circle"></i></li>
    </div>
 
    <div id=desktop>

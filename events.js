@@ -8,7 +8,8 @@
     $(document).on('click','.window-close',closeWindow);
     $(document).on('click','.window-maximize',maxWindow);
     $(document).on('click','.taskname',putToFront);
-    $(document).on('click','#menubut',tileWindows);
+    $(document).on('click','#menubut',menuToggle);
+    $(document).on('click','#tilebut',tileWindows);
     $(document).on('resize','.window',cellMoved);
 
     $(document).on('change','.cell',cellValidate);
