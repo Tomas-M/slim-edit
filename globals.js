@@ -9,6 +9,5 @@
    g.nextWindowPos={top:110,left:110};
 
    // definition of tables and optionally data
-   // you must define properties in config.js
-   g.tables={};
-   g.data={};
+   g.tables={}; // actual structures are defined in config.js
+   g.data={}; // initial data are defined in data.js. It may be empty

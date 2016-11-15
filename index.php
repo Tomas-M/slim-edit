@@ -16,6 +16,7 @@
 <script src="functions.js<?=$rev?>"></script>
 <script src="events.js<?=$rev?>"></script>
 <script src="config.js<?=$rev?>"></script>
+<script src="data.js<?=$rev?>"></script>
 <script src="windows.js<?=$rev?>"></script>
 <script src="taskbar.js<?=$rev?>"></script>
 <script src="editor.js<?=$rev?>"></script>
