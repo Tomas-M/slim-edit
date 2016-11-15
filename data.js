@@ -77,13 +77,19 @@
       "Standards":
       [
          { "ID": 1,
-           "Name": "ASDFGH"
+           "Name": "STAN1"
          },
          { "ID": 3,
-           "Name": "FFFFFF"
+           "Name": "STAN3"
          },
-         { "ID": 5,
-           "Name": "XXXXXX"
+         { "ID": 4,
+           "Name": "STAN4"
+         }
+         { "ID": 23,
+           "Name": "STAN23"
+         }
+         { "ID": 12,
+           "Name": "STAN12"
          }
       ]
    };
