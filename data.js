@@ -72,6 +72,19 @@
            "Description":"Service five",
            "Standard ID":4
          }
+      ],
+      
+      "Standards":
+      [
+         { "ID": 1,
+           "Name": "ASDFGH"
+         },
+         { "ID": 3,
+           "Name": "FFFFFF"
+         },
+         { "ID": 5,
+           "Name": "XXXXXX"
+         }
       ]
    };
 
