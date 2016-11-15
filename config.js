@@ -28,17 +28,14 @@
             "datatype": "integer",
             "align": "right",
             "linkto": "Services,ID,ID,Name",
-            "width": "60px"
          },
          "Packet Type": {
             "datatype": "integer",
             "align": "right",
-            "width": "60px"
          },
          "Subtype": {
             "datatype": "integer",
             "align": "right",
-            "width": "60px"
          },
          "Code": {
             "datatype": "text"
