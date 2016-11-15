@@ -43,7 +43,7 @@
 
       win=getEl(id);
 
-      win.draggable({'scroll':false, 'containment':'parent', 'distance':4,
+      win.draggable({'scroll':false, 'containment':'parent', 'delay':80,
       'start':function(ev,ui)
       {
          var win=ui.helper;
@@ -55,8 +55,7 @@
          var win=ui.helper;
          win.find('.content').css('display','block');
          win.css('opacity',1);
-         win.removeData('maximized');
-         saveWindowPos(win);
+         if (!win.data('maximized')) saveWindowPos(win);
       }});
 
       win.resizable({'minHeight':150, 'minWidth':200, 'containment':'parent',
