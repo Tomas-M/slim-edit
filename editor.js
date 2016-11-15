@@ -130,7 +130,7 @@
          $('.option').on('mouseover',function(){ $('.option.selected').removeClass('selected'); });
 
          // scroll to selected value, if any
-         var scroll=$('.option.selected').position(); if ('top' in scroll) scroll=scroll.top; else scroll=0;
+         var scroll=$('.option.selected').position(); if (scroll) scroll=scroll.top; else scroll=0;
          $('#optionsinside').scrollTop(scroll-$('#options').height()/2);
 
          // todo: keyboard navigation
