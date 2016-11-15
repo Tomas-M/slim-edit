@@ -60,5 +60,6 @@
    //
    function unserialize(t)
    {
+      if (!t) return false;
       return JSON_fromString(decodeURIComponent(escape(atob(t.replace(/[_]/g,"/").replace(/[-]/g,"+")))));
    }

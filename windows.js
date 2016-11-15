@@ -68,8 +68,8 @@
       }});
 
       win.find('.content').on('scroll',cellMoved);
-
       win.find('.header').on('dblclick',maxWindow);
+
       if (getSavedWindowPos(win)) restoreWindowPos(win,true);
       else saveWindowPos(win);
 
@@ -150,7 +150,7 @@
       var d=40;
       var sw=$(window).width();
       var sh=$(window).height();
-      var w=Math.floor(sw/2);
+      var w=Math.floor(sw/2); if (w<800) w=800;
       var h=Math.floor(sh/2);
 
       if (g.nextWindowPos.left+w>sw) g.nextWindowPos.left=60;
