@@ -38,7 +38,8 @@
             "align": "right",
          },
          "Code": {
-            "datatype": "text"
+            "datatype": "text",
+            "linkto": "Packets,Code"
          },
          "Name": {
             "datatype": "text"
@@ -60,7 +61,7 @@
          "Type": {
             "datatype": "text",
             "width": "100px",
-            "options": "delegated,strange,a,s,d,f,g,h,j,k,l,random"
+            "options": "delegated,strange,random"
          },
          "Description": {
             "datatype": "text"
