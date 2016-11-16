@@ -113,7 +113,7 @@
       {
          $("#optionsinside").html(html).scrollTop(0);
 
-         $("#options").data('cell',cell).off().on('click',function(ev)
+         $("#options").data('cell',cell).off().on('mousedown',function(ev){ev.preventDefault();}).on('click',function(ev)
          {
             var t=$(ev.target);
             if (!t.hasClass('option')) return;
@@ -159,7 +159,7 @@
 
    function cellBlur(ev)
    {
-      if ($(ev.relatedTarget).closest('#options').length==0)
+      if ($(ev.relatedTarget).closest('.option').length==0)
          $('#options').css('display','none').removeData('cell');
       else $(ev.relatedTarget).click();
    }

@@ -3,7 +3,7 @@
   {
 
     $(document).on('mousedown','.window',putToFront);
-    $(document).on('mousedown',function(ev){ if ($(ev.target).closest('#options').length==0) $('.options').remove(); });
+    $(document).on('mousedown',function(ev){ if ($(ev.target).closest('.option').length==0) $('.options').remove(); });
 
     $(document).on('click','.window-close',closeWindow);
     $(document).on('click','.window-maximize',maxWindow);
