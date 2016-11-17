@@ -58,7 +58,7 @@
          if (!win.data('maximized')) saveWindowPos(win);
       }});
 
-      win.resizable({'minHeight':150, 'minWidth':200, 'containment':'parent',
+      win.resizable({'minHeight':150, 'minWidth':200, 'containment':'parent', "handles":"all",
       'stop':function(ev,ui)
       {
          var win=ui.helper;
