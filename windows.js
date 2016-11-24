@@ -9,9 +9,17 @@
       var max=11;
       $('.window').each(function(ix,el) { max=Math.max(max,$(el).css('z-index')); });
       if (!win.hasClass('topmost')) win.css('z-index',max+1);
+
       $('.window').removeClass('topmost');
-      win.addClass('topmost').removeClass('closed');
+      win.addClass('topmost');
       win.css({'display':'block'});
+
+      if (win.hasClass('closed'))
+      {
+         win.removeClass('closed');
+         tileWindows(true);
+      }
+
       setTimeout(function(){win.css({'opacity':1});},0);
       update_taskbar();
    }
@@ -71,6 +79,7 @@
 
       if (getSavedWindowPos(win)) restoreWindowPos(win,true);
       else saveWindowPos(win);
+      tileWindows(true);
 
       return win;
    }
@@ -109,6 +118,7 @@
       win.css('opacity',0).addClass('closed').removeClass('topmost');
       setTimeout(function(){win.css('display','none')},g.effectDuration);
       update_taskbar();
+      tileWindows(true);
    }
 
 
@@ -161,13 +171,21 @@
    }
 
 
-   function tileWindows()
+   function tileWindows(retileIfTiled)
    {
-      var windows=$('.window:visible');
+      var windows=$('.window:visible').not('.closed');
       var desk=$('#desktop');
       var n=windows.length;
+      var isTiled=desk.data('tiled');
 
-      if (desk.data('tiled'))
+      if (retileIfTiled)
+      {
+         if (!isTiled) return;
+         isTiled=false;
+      }
+
+      // undo tile
+      if (isTiled)
       {
          for (var i=0;i<n;i++)
          {
@@ -179,6 +197,7 @@
          return;
       }
 
+      // do tile
       var inrow=Math.ceil(Math.sqrt(n));
       var rows=Math.ceil(n/inrow);
 

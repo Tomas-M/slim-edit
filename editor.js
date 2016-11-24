@@ -3,7 +3,7 @@
    function inputHTML(cell,val)
    {
       var ret=[];
-      ret.push('<input class=cell');
+      ret.push('<input type=text class=cell');
       if (val!='') ret.push('value="'+htmlspecialchars(val)+'"');
       if (cell["placeholder"]) ret.push('placeholder="'+cell["placeholder"]+'"');
       if (cell["align"]) ret.push('style="text-align: '+(cell["align"])+';"');
