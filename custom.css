@@ -1,6 +1,6 @@
-.ui-resizable-e { width: 10px; right: 0px; }
-.ui-resizable-w { width: 10px; left: 0px; }
-.ui-resizable-s { height: 10px; bottom: 0px; }
+.ui-resizable-e { width: 5px; right: 0px; }
+.ui-resizable-w { width: 5px; left: 0px; }
+.ui-resizable-s { height: 5px; bottom: 0px; }
 .ui-resizable-nw { left: 0px; top: 0px; width: 13px; height: 13px; }
 .ui-resizable-sw { left: 0px; bottom: 0px; width: 13px; height: 13px; }
 .ui-resizable-ne { width: 13px; height: 13px; }
