@@ -5,7 +5,8 @@
 .ui-resizable-sw { left: 0px; bottom: 0px; width: 13px; height: 13px; }
 .ui-resizable-ne { width: 13px; height: 13px; }
 .ui-resizable-se { right: 0px; bottom: 0px; }
-.ui-icon-gripsmall-diagonal-se { background-position: -80px -224px; }
+.ui-icon-gripsmall-diagonal-se { background-position: -80px -224px; opacity: 0.4; }
+.window.topmost .ui-icon-gripsmall-diagonal-se { opacity: 0.8; }
 
 .window .content::-webkit-scrollbar { width: 6px; height: 6px; }
 .window .content::-webkit-scrollbar-track { background: #eeeeee; }
