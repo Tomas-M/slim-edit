@@ -65,21 +65,25 @@
    }
 
 
-   function autosuggest(lookupTable,column,hintColumns)
+   function getTablePrimary(tbl)
+   {
+      for (var i in g.tables[tbl]) if (g.tables[tbl][i]["datatype"]=="primary") return i;
+   }
+
+
+   function autosuggest(lookupTable,column)
    {
       // sanity check
       if (!(lookupTable && g.tables[lookupTable] && column && g.tables[lookupTable][column])) return [];
 
       var row,i,j,hint;
       var ret={};
+      var primary=getTablePrimary(lookupTable);
 
       for (i=0; i<g.data[lookupTable].length; i++)
       {
          row=g.data[lookupTable][i]; if (!row) continue;
-         hint=[];
-         for(j=0; j<hintColumns.length; j++) hint.push(row[hintColumns[j]]);
-         if (hintColumns.length==0) hint=[row[column]];
-         if (row[column]) ret[row[column]]=hint.join(" - ");
+         if (row[primary]) ret[row[primary]]=row[column];
       }
 
       return ret;
@@ -104,8 +108,8 @@
       // if link exists, it overides any hardcoded options
       if (link)
       {
-         link=link.split(',');
-         options=autosuggest(link[0],link[1],link.slice(2));
+         link=link.split('.');
+         options=autosuggest(link[0],link[1]);
          for (i in options) html+='<a href=# data-set="'+htmlspecialchars(i)+'" class="option '+(cell.val()==i?"selected":"")+'" title="'+htmlspecialchars(options[i])+'">'+htmlspecialchars(options[i])+'</a>';
       }
 
