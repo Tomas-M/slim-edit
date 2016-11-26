@@ -1,13 +1,47 @@
 
 
-   function inputHTML(cell,val)
+   function getTablePrimary(tbl)
    {
+      if (!tbl || !g.tables[tbl]) return false;
+      return g.tables[tbl]["primary"];
+   }
+
+
+   function getTableRows(tbl)
+   {
+      if (!tbl || !g.tables[tbl]) return false;
+      return g.tables[tbl]["rows"];
+   }
+
+
+   function getTableCols(tbl)
+   {
+      return g.tables[tbl]['columns'];
+   }
+
+
+   function displayValue(linkto,uniq)
+   {
+      linkto=linkto.split('.');
+      var tbl=linkto[0];
+      var primary=getTablePrimary(tbl);
+      var column=linkto[1];
+
+      var rows=getTableRows(tbl);
+      for (var i=0; i<rows.length; i++) if (rows[i][primary]==uniq) return rows[i][column];
+   }
+
+
+   function inputHTML(name,column,val)
+   {
+      if (column.linkto) val=displayValue(column.linkto,val);
       var ret=[];
       ret.push('<input type=text class=cell');
       if (val!='') ret.push('value="'+htmlspecialchars(val)+'"');
-      if (cell["placeholder"]) ret.push('placeholder="'+cell["placeholder"]+'"');
-      if (cell["align"]) ret.push('style="text-align: '+(cell["align"])+';"');
-      for (var c in cell) ret.push('data-'+c+'="'+htmlspecialchars(cell[c])+'"');
+      if (column["placeholder"]) ret.push('placeholder="'+column["placeholder"]+'"');
+      if (column["display"]) ret.push('style="text-align: '+(column["display"])+';"');
+      for (var c in column) ret.push('data-'+c+'="'+htmlspecialchars(column[c])+'"');
+      ret.push('data-name="'+htmlspecialchars(name)+'"');
       ret.push(">");
       return ret.join(' ');
    }
@@ -17,35 +51,32 @@
    {
       var i,j,n;
       var emptyrow='<tr class=emptyrow>';
-      var underline='<tr>';
       var thead='<tr class=tableheader>';
       var data='';
       var html='';
 
-      var prop=g.tables[tbl];
-      var rows=g.data[tbl];
+      var cols=getTableCols(tbl);
+      var rows=getTableRows(tbl);
 
-      n=0; for (i in prop) n++;
+      n=0; for (i in cols) n++;
 
-      for (i in prop)
+      for (i in cols) if (cols[i]["display"]!='none')
       {
-         thead+='<td style="width: '+(prop[i]["width"]?prop[i]["width"]:'auto')+'; text-align: '+(prop[i]["align"]?prop[i]["align"]:'initial')+';">'+htmlspecialchars(i)+'</td>';
-         emptyrow+='<td><div class=aroundcell>'+inputHTML(prop[i],'')+'<div class=aftercell></div></div></td>';
-         underline+='<td></td>';
+         thead+='<td style="width: '+(cols[i]["width"]?cols[i]["width"]:'auto')+'; text-align: '+(cols[i]["display"]?cols[i]["display"]:'initial')+';">'+htmlspecialchars(i)+'</td>';
+         emptyrow+='<td><div class=aroundcell>'+inputHTML(i,cols[i],'')+'<div class=aftercell></div></div></td>';
       }
 
       thead+='</tr>';
       emptyrow+='</tr>';
-      underline+='</tr>';
 
       for (i in rows)
       {
          if (!rows[i]) { data+=emptyrow; continue; }
 
          data+='<tr>';
-         for (j in prop)
+         for (j in cols) if (cols[j]["display"]!='none')
          {
-            data+='<td><div class=aroundcell>'+inputHTML(prop[j],rows[i][j])+'<div class=aftercell></div></div></td>';
+            data+='<td><div class=aroundcell>'+inputHTML(j,cols[j],rows[i][j])+'<div class=aftercell></div></div></td>';
          }
          data+='</tr>';
       }
@@ -65,24 +96,19 @@
    }
 
 
-   function getTablePrimary(tbl)
-   {
-      for (var i in g.tables[tbl]) if (g.tables[tbl][i]["datatype"]=="primary") return i;
-   }
-
-
    function autosuggest(lookupTable,column)
    {
       // sanity check
-      if (!(lookupTable && g.tables[lookupTable] && column && g.tables[lookupTable][column])) return [];
+      if (!(lookupTable && g.tables[lookupTable] && column && g.tables[lookupTable]['columns'][column])) return [];
 
       var row,i,j,hint;
       var ret={};
       var primary=getTablePrimary(lookupTable);
+      var rows=getTableRows(lookupTable);
 
-      for (i=0; i<g.data[lookupTable].length; i++)
+      for (i=0; i<rows.length; i++)
       {
-         row=g.data[lookupTable][i]; if (!row) continue;
+         row=rows[i]; if (!row) continue;
          if (row[primary]) ret[row[primary]]=row[column];
       }
 
@@ -180,14 +206,11 @@
       var cell=$(this);
       var tbl=unserialize(cell.closest('.grid').data('table'));
       var row=cell.closest('tr').index()-1; // first row is header
-      var col=cell.closest('td').index();
+      var col=cell.data('name');
       var grid=cell.closest('.grid');
 
-      var keys=g.tables[tbl];
-      for (var k in keys) { if (col--<1) break; }
-      if (!g.data[tbl]) g.data[tbl]=[];
-      if (!g.data[tbl][row]) g.data[tbl][row]={};
-      g.data[tbl][row][k]=cell.val();
+      if (!g.tables[tbl]["rows"][row]) g.tables[tbl]["rows"][row]={};
+      g.tables[tbl]["rows"][row][col]=cell.val();
 
       cell.closest('tr').removeClass('emptyrow');
       if (grid.find('.emptyrow').length<2) grid.append(unserialize(grid.data('emptyrow')));

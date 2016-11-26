@@ -1,9 +1,13 @@
 
-   localStorage.clear();
+//   localStorage.clear();
 
-   for (var tbl in g.tables)
+   function init()
    {
-      createWindow(serialize(tbl),tbl,genTableGridHTML(tbl));
+      for (var tbl in g.tables)
+      {
+         createWindow(serialize(tbl),tbl,genTableGridHTML(tbl));
+      }
    }
 
+   init();
    update_taskbar();
