@@ -32,6 +32,18 @@
    }
 
 
+   function displayValueKey(linkto,val)
+   {
+      linkto=linkto.split('.');
+      var tbl=linkto[0];
+      var primary=getTablePrimary(tbl);
+      var column=linkto[1];
+
+      var rows=getTableRows(tbl);
+      for (var i=0; i<rows.length; i++) if (rows[i][column]==val) return rows[i][primary];
+   }
+
+
    function inputHTML(name,column,val)
    {
       if (column.linkto) val=displayValue(column.linkto,val);
@@ -92,6 +104,7 @@
    function cellValidate(ev)
    {
       var cell=$(this);
+      if (cell.data('linkto')!='') return;// todo: in this case check link's datatype not cell's one
       if (cell.data('datatype')=='integer') cell.val(cell.val().replace(/[^0-9]/g,''));
    }
 
@@ -136,7 +149,7 @@
       {
          link=link.split('.');
          options=autosuggest(link[0],link[1]);
-         for (i in options) html+='<a href=# data-set="'+htmlspecialchars(i)+'" class="option '+(cell.val()==i?"selected":"")+'" title="'+htmlspecialchars(options[i])+'">'+htmlspecialchars(options[i])+'</a>';
+         for (i in options) html+='<a href=# data-set="'+htmlspecialchars(i)+'" class="option '+(cell.val()==options[i]?"selected":"")+'" title="'+htmlspecialchars(options[i])+'">'+htmlspecialchars(options[i])+'</a>';
       }
 
       if (html)
@@ -153,7 +166,7 @@
             var cell=o.data('cell');
             cell.val(set);
             o.css('display','none').removeData('cell');
-            cellSave.call(cell);
+            cellSave.call(cell,true);
             ev.preventDefault();
          });
 
@@ -163,7 +176,7 @@
          var scroll=$('.option.selected').position(); if (scroll) scroll=scroll.top; else scroll=0;
          $('#optionsinside').scrollTop(scroll-$('#options').height()/2);
 
-         // todo: keyboard navigation
+         // todo: keyboard navigation, up/down, keypress will refresh selected
 
          refreshOptionsPosition();
       }
@@ -207,11 +220,19 @@
       var tbl=unserialize(cell.closest('.grid').data('table'));
       var row=cell.closest('tr').index()-1; // first row is header
       var col=cell.data('name');
+      var link=cell.data('linkto');
       var grid=cell.closest('.grid');
+      var val=cell.val();
+
+      if (link && ev!==true) val=displayValueKey(link,val);
 
       if (!g.tables[tbl]["rows"][row]) g.tables[tbl]["rows"][row]={};
-      g.tables[tbl]["rows"][row][col]=cell.val();
+      g.tables[tbl]["rows"][row][col]=val;
+//TODO: if new row was added, add new primary key id
+//TODO: if editing table with filter and new row was added, fill columns by filter
 
       cell.closest('tr').removeClass('emptyrow');
       if (grid.find('.emptyrow').length<2) grid.append(unserialize(grid.data('emptyrow')));
+
+      if (link) cell.val(displayValue(link,val));
    }
