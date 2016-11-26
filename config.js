@@ -35,7 +35,7 @@
          "columns": {
             "ID": {
                "datatype": "integer",
-               "display": "right"
+               "display": "none"
             },
             "Service": {
                "datatype": "integer",
@@ -68,7 +68,7 @@
          "columns": {
             "ID": {
                "datatype": "integer",
-               "display": "right",
+               "display": "none",
                "width": "60px"
             },
             "Name": {

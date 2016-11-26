@@ -1,39 +1,20 @@
 
-
-   function getTablePrimary(tbl)
-   {
-      if (!tbl || !g.tables[tbl]) return false;
-      return g.tables[tbl]["primary"];
-   }
-
-
-   function getTableRows(tbl)
-   {
-      if (!tbl || !g.tables[tbl]) return false;
-      return g.tables[tbl]["rows"];
-   }
-
-
-   function getTableCols(tbl)
-   {
-      return g.tables[tbl]['columns'];
-   }
-
-
    function displayValue(linkto,uniq)
    {
+      if (!linkto) return uniq;
       linkto=linkto.split('.');
       var tbl=linkto[0];
       var primary=getTablePrimary(tbl);
       var column=linkto[1];
 
       var rows=getTableRows(tbl);
-      for (var i=0; i<rows.length; i++) if (rows[i][primary]==uniq) return rows[i][column];
+      for (var i=0; i<rows.length; i++) if (rows[i]) if (rows[i][primary]==uniq) return rows[i][column];
    }
 
 
    function displayValueKey(linkto,val)
    {
+      if (!linkto) return val;
       linkto=linkto.split('.');
       var tbl=linkto[0];
       var primary=getTablePrimary(tbl);
@@ -93,7 +74,7 @@
          data+='</tr>';
       }
 
-      html='<table border=0 data-table="'+serialize(tbl)+'" data-emptyrow="'+serialize(emptyrow)+'" cellspacing=0 cellpadding=0 class=grid>'+thead+data;
+      html='<table border=0 data-table="'+tbl+'" data-emptyrow="'+serialize(emptyrow)+'" cellspacing=0 cellpadding=0 class=grid>'+thead+data;
       for (j=0; j<4; j++) html+=emptyrow; // add some empty rows at the end
       html+='</table>';
 
@@ -104,7 +85,7 @@
    function cellValidate(ev)
    {
       var cell=$(this);
-      if (cell.data('linkto')!='') return;// todo: in this case check link's datatype not cell's one
+      if (cell.data('linkto')){console.log(cell.data()); return;}// todo: in this case check link's datatype not cell's one
       if (cell.data('datatype')=='integer') cell.val(cell.val().replace(/[^0-9]/g,''));
    }
 
@@ -112,7 +93,7 @@
    function autosuggest(lookupTable,column)
    {
       // sanity check
-      if (!(lookupTable && g.tables[lookupTable] && column && g.tables[lookupTable]['columns'][column])) return [];
+      if (!columnExists(lookupTable,column)) return [];
 
       var row,i,j,hint;
       var ret={};
@@ -213,26 +194,65 @@
       refreshOptionsPosition(true);
    }
 
+   function maximum(rows,col)
+   {
+      var max=false;
+      for (var i=0; i<rows.length; i++) if (rows[i]) if (!max || max<rows[i][col]) max=rows[i][col];
+      return max;
+   }
+
+
+   function refreshAllTables()
+   {
+      $('.grid').each(function(ix,el)
+      {
+         var tbl=$(el).data('table');
+         var rows=getTableRows(tbl);
+         var columns=getTableCols(tbl);
+
+         for (var i=0; i<rows.length; i++)
+            for(var j in rows[i])
+               $(el).find('tr').eq(i+1).find('td [data-name="'+j+'"]').each(function(ix,el)
+               {
+                  var col=$(el).data('name');
+                  $(el).val(displayValue(columns[col].linkto,rows[i][col]));
+               });
+      });
+   }
+
 
    function cellSave(ev)
    {
       var cell=$(this);
-      var tbl=unserialize(cell.closest('.grid').data('table'));
+      var tbl=cell.closest('.grid').data('table');
       var row=cell.closest('tr').index()-1; // first row is header
       var col=cell.data('name');
       var link=cell.data('linkto');
       var grid=cell.closest('.grid');
       var val=cell.val();
+      var rows=getTableRows(tbl);
 
       if (link && ev!==true) val=displayValueKey(link,val);
 
-      if (!g.tables[tbl]["rows"][row]) g.tables[tbl]["rows"][row]={};
-      g.tables[tbl]["rows"][row][col]=val;
-//TODO: if new row was added, add new primary key id
-//TODO: if editing table with filter and new row was added, fill columns by filter
+      if (!rows[row]) rows[row]={};
+      rows[row][col]=val;
 
-      cell.closest('tr').removeClass('emptyrow');
+      if (cell.closest('tr').hasClass('emptyrow'))
+      {
+//TODO: if editing table with filter and new row was added, fill columns by filter
+         var primary=getTablePrimary(tbl);
+         if (col!=primary)
+         {
+            rows[row][primary]=parseInt(maximum(rows,primary))+1;
+            cell.closest('tr').find('input[data-name="'+primary+'"]').val(rows[row][primary]);
+         }
+         cell.closest('tr').removeClass('emptyrow');
+      }
+
       if (grid.find('.emptyrow').length<2) grid.append(unserialize(grid.data('emptyrow')));
 
       if (link) cell.val(displayValue(link,val));
+
+      // after table row update is complete, refresh all linked columns on other tables which link to this row
+      refreshAllTables();
    }

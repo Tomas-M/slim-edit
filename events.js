@@ -19,5 +19,6 @@
     $(document).on('blur','.cell',cellBlur);
 
     $(window).on('blur',function(ev){ $('#hiddeninput').focus(); });
+    $(window).on('resize',function(ev){ tileWindows(true); });
 
   });

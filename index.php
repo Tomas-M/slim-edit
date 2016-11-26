@@ -20,6 +20,7 @@
 <script src="data.js<?=$rev?>"></script>
 <script src="windows.js<?=$rev?>"></script>
 <script src="taskbar.js<?=$rev?>"></script>
+<script src="tables.js<?=$rev?>"></script>
 <script src="editor.js<?=$rev?>"></script>
 
 <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
