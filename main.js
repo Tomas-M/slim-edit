@@ -3,10 +3,10 @@
 
    function init()
    {
-      for (var tbl in g.tables)
-      {
-         createWindow(serialize(tbl),tbl,genTableGridHTML(tbl));
-      }
+      var tables=getTables();
+      for (var tbl in tables)
+         if (tables[tbl].showOnStartup)
+            createWindow(serialize(tbl),tbl,genTableGridHTML(tbl));
    }
 
    init();

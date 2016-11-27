@@ -10,7 +10,7 @@
     *             columns: {...},
     *             rows: [...],
     *             primary: "columnName",
-    *             menu: true/false
+    *             showOnStartup: true/false
     *          }
     *
     */
@@ -61,7 +61,7 @@
          },
          "rows":[],
          "primary": "ID",
-         "menu":true
+         "showOnStartup":false
       },
 
       "Services": {
@@ -85,7 +85,7 @@
          },
          "rows":[],
          "primary": "ID",
-         "menu":true
+         "showOnStartup":true
       }
 
    };
