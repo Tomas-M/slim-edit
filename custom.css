@@ -78,6 +78,11 @@ body, td
    border-bottom: 1px solid #fff;
 }
 
+.header .subtitle
+{
+   color: #aaa;
+}
+
 .window.topmost .header
 {
    color: #0086E5;
@@ -268,4 +273,22 @@ body, div, span, li
    color: #ffffff;
 }
 
-.taskbar .menuright
+.linkbutton
+{
+   width: calc(100% - 4px);
+   height: 26px;
+   margin-left: 2px;
+   opacity: 0.3;
+}
+
+.linkbutton:hover
+{
+   opacity:1;
+   cursor: pointer;
+}
+
+.emptyrow .linkbutton
+{
+   visibility: hidden;
+}
+

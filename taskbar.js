@@ -1,27 +1,37 @@
 
 
-   function update_taskbar()
+   function taskbarRefresh()
    {
       var windows=$('.window');
-      var win,id,ex;
+      var win,id,task;
 
       for (var i=0; i<windows.length; i++)
       {
          win=$(windows[i]);
          id=win.attr('id');
+         task=$('#taskbar').find('li[data-windowid="'+id+'"]');
+         if (task.length==0) continue;
 
-         ex=$('#taskbar').find('li[data-windowid="'+id+'"]');
+         if (win.hasClass('closed')) task.addClass('closed');
+         else task.removeClass('closed');
 
-         if (ex.length==0) { ex=$('<li class="taskname" data-windowid="'+id+'"></li>'); $('#taskbar').append(ex); }
-
-         if (win.hasClass('closed')) ex.addClass('closed');
-         else ex.removeClass('closed');
-
-         if (win.hasClass('topmost')) ex.addClass('active');
-         else ex.removeClass('active');
-
-         ex.text(win.find('.header').text());
+         if (win.hasClass('topmost')) task.addClass('active');
+         else task.removeClass('active');
       }
+   }
+
+
+   function taskbarAdd(id,title)
+   {
+      $('#taskbar').append('<li class="taskname" data-windowid="'+id+'">'+htmlspecialchars(title)+'</li>');
+      taskbarRefresh();
+   }
+
+
+   function taskbarRemove(win)
+   {
+      var id=win.attr('id');
+      $('#taskbar').find('li[data-windowid="'+id+'"]').remove();
    }
 
 

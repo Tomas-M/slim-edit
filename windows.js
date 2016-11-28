@@ -1,13 +1,21 @@
 
    function putToFront(ev)
    {
+      var max=11;
+      var topwindow;
+      $('.window:not(.closed)').each(function(ix,el)
+      {
+         var cur=$(el).css('z-index');
+         if (cur>max || !topwindow) topwindow=$(el).attr('id');
+         max=Math.max(max,cur);
+      });
+
+      if (typeof ev === "undefined") ev=topwindow;
       if ($(ev.target).hasClass('window-title-button')) return;
       if ($(ev.target).closest('.window-title-button').length>0) return;
       if ($(ev.target).hasClass('taskname')) ev=$(ev.target).data('windowid');
 
       var win=getEl(ev,'window');
-      var max=11;
-      $('.window').each(function(ix,el) { max=Math.max(max,$(el).css('z-index')); });
       if (!win.hasClass('topmost')) win.css('z-index',max+1);
 
       $('.window').removeClass('topmost');
@@ -21,35 +29,22 @@
       }
 
       setTimeout(function(){win.css({'opacity':1});},0);
-      update_taskbar();
+      taskbarRefresh();
    }
 
 
-   function createWindow(id,title,contentHTML)
+   function createWindow(title,subtitle,contentHTML,isPersistent)
    {
-      var html='<div class="window" id="'+htmlspecialchars(id)+'" style="z-index:10; opacity:1; ">'
+      var wid='window-'+(g.window_id++);
+      var html='<div class="window closed '+(isPersistent?'persistent':'')+'" id="'+wid+'" style="z-index:10; opacity:0; ">'
       +'<div class="window-title-button window-close"><i class="fa fa-times"></i></div>'
       +'<div class="window-title-button window-maximize"><i class="fa fa-window-maximize"></i></div>'
-      +'<div class=header>'+htmlspecialchars(title)+'</div>'
+      +'<div class=header>'+htmlspecialchars(title)+(subtitle?'<span class=subtitle> &nbsp;'+subtitle+'</span>':'')+'</div>'
       +'<div class=content>'+contentHTML+'</div></div>';
-
-      var win=getEl(id);
-
-      // if window exists, raise it and update contents
-      if (win.length>0)
-      {
-         win.find('.header').text(title);
-         win.find('.content').html(contentHTML);
-         putToFront(id);
-         return;
-      }
-
       $('#desktop').append(html);
 
-      setWindowPosAuto(id,true);
-      putToFront(id);
-
-      win=getEl(id);
+      win=getEl(wid);
+      setWindowPosAuto(win,true);
 
       win.draggable({'scroll':false, 'containment':'parent', 'delay':80,
       'start':function(ev,ui)
@@ -79,9 +74,9 @@
 
       if (getSavedWindowPos(win)) restoreWindowPos(win,true);
       else saveWindowPos(win);
-      tileWindows(true);
 
-      return win;
+      putToFront(win);
+      return wid;
    }
 
 
@@ -116,8 +111,16 @@
    {
       var win=getEl(id,'window');
       win.css('opacity',0).addClass('closed').removeClass('topmost');
-      setTimeout(function(){win.css('display','none')},g.effectDuration);
-      update_taskbar();
+      if (!win.hasClass('persistent')) taskbarRemove(win);
+
+      setTimeout(function()
+      {
+         if (win.hasClass('persistent')) win.css('display','none');
+         else {  win.remove(); }
+      },g.effectDuration);
+
+      putToFront();
+      taskbarRefresh();
       tileWindows(true);
    }
 

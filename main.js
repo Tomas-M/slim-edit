@@ -1,13 +1,13 @@
 
 //   localStorage.clear();
 
-   function init()
+   function main()
    {
       var tables=getTables();
       for (var tbl in tables)
          if (tables[tbl].showOnStartup)
-            createWindow(serialize(tbl),tbl,genTableGridHTML(tbl));
+         {
+            var w_id=createWindow(tbl,'',genTableGridHTML(tbl),true);
+            taskbarAdd(w_id,tbl);
+         }
    }
-
-   init();
-   update_taskbar();

@@ -19,7 +19,7 @@
     *
     *   "columnName":
     *   {
-    *      "datatype":    integer / string / text / button
+    *      "datatype":    integer / text / longtext
     *      "display":     left / right / center / none
     *      "placeholder": string containing help text
     *      "options":     coma separated list of allowed values, which are offered to the user on edit
@@ -31,11 +31,35 @@
 
    g.tables={
 
+      "Services": {
+         "columns": {
+            "ID": {
+               "datatype": "integer",
+               "display": "anone",
+               "width": "60px"
+            },
+            "Name": {
+               "datatype": "text"
+            },
+            "Type": {
+               "datatype": "text",
+               "width": "100px",
+               "options": "delegated,strange,random"
+            },
+            "Description": {
+               "datatype": "text"
+            }
+         },
+         "rows":[],
+         "primary": "ID",
+         "showOnStartup":true
+      },
+
       "Packets": {
          "columns": {
             "ID": {
                "datatype": "integer",
-               "display": "none"
+               "display": "anone"
             },
             "Service": {
                "datatype": "integer",
@@ -61,32 +85,8 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":false
-      },
-
-      "Services": {
-         "columns": {
-            "ID": {
-               "datatype": "integer",
-               "display": "none",
-               "width": "60px"
-            },
-            "Name": {
-               "datatype": "text"
-            },
-            "Type": {
-               "datatype": "text",
-               "width": "100px",
-               "options": "delegated,strange,random"
-            },
-            "Description": {
-               "datatype": "text"
-            }
-         },
-         "rows":[],
-         "primary": "ID",
          "showOnStartup":true
-      }
+      },
 
    };
 

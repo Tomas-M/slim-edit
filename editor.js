@@ -1,27 +1,32 @@
 
-   function displayValue(linkto,uniq)
+   function parseLink(linktoString)
    {
-      if (!linkto) return uniq;
-      linkto=linkto.split('.');
-      var tbl=linkto[0];
-      var primary=getTablePrimary(tbl);
-      var column=linkto[1];
-
-      var rows=getTableRows(tbl);
-      for (var i=0; i<rows.length; i++) if (rows[i]) if (rows[i][primary]==uniq) return rows[i][column];
+      if (!linktoString) return false;
+      var parsed=linktoString.split('.');
+      if (parsed[1]) return { 'table': parsed[0], 'column': parsed[1] };
+      else return false;
    }
 
 
-   function displayValueKey(linkto,val)
+   function displayValue(link,uniq)
    {
-      if (!linkto) return val;
-      linkto=linkto.split('.');
-      var tbl=linkto[0];
-      var primary=getTablePrimary(tbl);
-      var column=linkto[1];
+      link=parseLink(link);
+      if (!link) return uniq;
+      var primary=getTablePrimary(link.table);
 
-      var rows=getTableRows(tbl);
-      for (var i=0; i<rows.length; i++) if (rows[i][column]==val) return rows[i][primary];
+      var rows=getTableRows(link.table);
+      for (var i=0; i<rows.length; i++) if (rows[i]) if (rows[i][primary]==uniq) return rows[i][link.column];
+   }
+
+
+   function displayValueKey(link,val)
+   {
+      link=parseLink(link);
+      if (!link) return val;
+      var primary=getTablePrimary(link.table);
+
+      var rows=getTableRows(link.table);
+      for (var i=0; i<rows.length; i++) if (rows[i][link.column]==val) return rows[i][primary];
    }
 
 
@@ -50,6 +55,8 @@
 
       var cols=getTableCols(tbl);
       var rows=getTableRows(tbl);
+      var links=getTableLinks(tbl);
+      var primary=getTablePrimary(tbl);
 
       n=0; for (i in cols) n++;
 
@@ -59,6 +66,13 @@
          emptyrow+='<td><div class=aroundcell>'+inputHTML(i,cols[i],'')+'<div class=aftercell></div></div></td>';
       }
 
+      for (i in links)
+      {
+         links[i].btn='<button class=linkbutton data-table="'+htmlspecialchars(links[i].table)+'" data-column="'+htmlspecialchars(links[i].column)+'">'+htmlspecialchars(links[i].table)+'</button>';
+         thead+='<td style="width:70px">'+htmlspecialchars(links[i].table)+'</td>';
+         emptyrow+='<td>'+links[i].btn+'</td>';
+      }
+
       thead+='</tr>';
       emptyrow+='</tr>';
 
@@ -66,11 +80,14 @@
       {
          if (!rows[i]) { data+=emptyrow; continue; }
 
-         data+='<tr>';
+         data+='<tr data-primary="'+htmlspecialchars(rows[i][primary])+'">';
+
          for (j in cols) if (cols[j]["display"]!='none')
-         {
             data+='<td><div class=aroundcell>'+inputHTML(j,cols[j],rows[i][j])+'<div class=aftercell></div></div></td>';
-         }
+
+         for (j in links)
+            data+='<td>'+links[j].btn+'</td>';
+
          data+='</tr>';
       }
 
@@ -97,13 +114,21 @@
 
       var row,i,j,hint;
       var ret={};
+      var rev={};
       var primary=getTablePrimary(lookupTable);
       var rows=getTableRows(lookupTable);
 
       for (i=0; i<rows.length; i++)
       {
          row=rows[i]; if (!row) continue;
-         if (row[primary]) ret[row[primary]]=row[column];
+         if (row[primary])
+         {
+            if (rev[row[column]]!=1)
+            {
+               ret[row[primary]]=row[column];
+               rev[row[column]]=1;
+            }
+         }
       }
 
       return ret;
@@ -116,20 +141,23 @@
       var cell=$(this);
       var options=cell.data('options');
       var link=cell.data('linkto');
+      var tbl=cell.closest('.grid').data('table');
+      var name=cell.data('name');
       var i;
 
       // hardcoded options are considered first
       if (options)
       {
-         options=options.split(',');
-         for (var i=0; i<options.length; i++) html+='<a href=# class="option '+(cell.val()==options[i]?"selected":"")+'" title="'+htmlspecialchars(options[i])+'">'+htmlspecialchars(options[i])+'</a>';
+         if (options===true) options=autosuggest(tbl,name);
+         else options=options.split(',');
+         for (i in options) html+='<a href=# class="option '+(cell.val()==options[i]?"selected":"")+'" title="'+htmlspecialchars(options[i])+'">'+htmlspecialchars(options[i])+'</a>';
       }
 
       // if link exists, it overides any hardcoded options
       if (link)
       {
-         link=link.split('.');
-         options=autosuggest(link[0],link[1]);
+         link=parseLink(link);
+         options=autosuggest(link.table,link.column);
          for (i in options) html+='<a href=# data-set="'+htmlspecialchars(i)+'" class="option '+(cell.val()==options[i]?"selected":"")+'" title="'+htmlspecialchars(options[i])+'">'+htmlspecialchars(options[i])+'</a>';
       }
 
@@ -209,15 +237,29 @@
          var tbl=$(el).data('table');
          var rows=getTableRows(tbl);
          var columns=getTableCols(tbl);
+         var primary=getTablePrimary(tbl);
 
          for (var i=0; i<rows.length; i++)
             for(var j in rows[i])
-               $(el).find('tr').eq(i+1).find('td [data-name="'+j+'"]').each(function(ix,el)
+               $(el).find('tr[data-primary="'+rows[i][primary]+'"]').find('td [data-name="'+j+'"]').each(function(ix,el)
                {
                   var col=$(el).data('name');
                   $(el).val(displayValue(columns[col].linkto,rows[i][col]));
                });
       });
+   }
+
+
+   function openSubtable()
+   {
+      var t=$(this);
+      var tbl=t.data('table');
+      var col=t.data('column');
+      var id=t.closest('tr').data('primary');
+      var comment=col+'='+displayValue(g.tables[tbl]['columns'][col].linkto,id);
+
+      var wid=createWindow(tbl,comment,genTableGridHTML(tbl,[{'column':col,'value':id}]));
+      taskbarAdd(wid,tbl+' for '+comment);
    }
 
 
@@ -243,8 +285,10 @@
          var primary=getTablePrimary(tbl);
          if (col!=primary)
          {
-            rows[row][primary]=parseInt(maximum(rows,primary))+1;
-            cell.closest('tr').find('input[data-name="'+primary+'"]').val(rows[row][primary]);
+            var p=parseInt(maximum(rows,primary))+1;
+            rows[row][primary]=p
+            cell.closest('tr').find('input[data-name="'+primary+'"]').val(p);
+            cell.closest('tr').attr('data-primary',p); // use attr so we can loopu [data-primary] in jquery selector later
          }
          cell.closest('tr').removeClass('emptyrow');
       }

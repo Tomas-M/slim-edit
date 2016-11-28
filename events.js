@@ -10,6 +10,7 @@
     $(document).on('click','.taskname',putToFront);
     $(document).on('click','#menubut',menuToggle);
     $(document).on('click','#tilebut',function(){ $(this).toggleClass('active'); tileWindows(); });
+    $(document).on('click','.linkbutton',openSubtable);
     $(document).on('resize','.window',cellMoved);
 
     $(document).on('change','.cell',cellValidate);
@@ -21,4 +22,5 @@
     $(window).on('blur',function(ev){ $('#hiddeninput').focus(); });
     $(window).on('resize',function(ev){ tileWindows(true); });
 
+    main();
   });
