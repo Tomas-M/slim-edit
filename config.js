@@ -85,7 +85,7 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":true
+         "showOnStartup":false
       },
 
    };

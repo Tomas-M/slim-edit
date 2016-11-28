@@ -67,3 +67,25 @@
       return res;
    }
 
+
+   function setTableCol(tbl,row,col,val)
+   {
+      var rows=getTableRows(tbl);
+      var primary=getTablePrimary(tbl);
+      var max=0;
+
+      for (var i=0; i<rows.length; i++)
+      {
+         if (parseInt(rows[i][primary])>max) max=parseInt(rows[i][primary]);
+         if (rows[i][primary]==parseInt(row)) break;
+      }
+
+      if (!rows[i]) // row not found, add primary
+      {
+         rows[i]={};
+         rows[i][primary]=max+1;
+      }
+
+      rows[i][col]=val;
+      return rows[i][primary];
+   }

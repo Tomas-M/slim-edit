@@ -1,6 +1,4 @@
 
-//   localStorage.clear();
-
    function main()
    {
       var tables=getTables();

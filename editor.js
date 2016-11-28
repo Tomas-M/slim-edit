@@ -1,4 +1,11 @@
 
+   function coalesce(v1,v2)
+   {
+      if (typeof v1 == "undefined") return v2;
+      else return v1;
+   }
+
+
    function parseLink(linktoString)
    {
       if (!linktoString) return false;
@@ -15,7 +22,8 @@
       var primary=getTablePrimary(link.table);
 
       var rows=getTableRows(link.table);
-      for (var i=0; i<rows.length; i++) if (rows[i]) if (rows[i][primary]==uniq) return rows[i][link.column];
+      for (var i=0; i<rows.length; i++) if (rows[i]) if (rows[i][primary]==uniq) return coalesce(rows[i][link.column],'');
+      return '';
    }
 
 
@@ -26,7 +34,8 @@
       var primary=getTablePrimary(link.table);
 
       var rows=getTableRows(link.table);
-      for (var i=0; i<rows.length; i++) if (rows[i][link.column]==val) return rows[i][primary];
+      for (var i=0; i<rows.length; i++) if (rows[i][link.column]==val) return coalesce(rows[i][primary],'');
+      return '';
    }
 
 
@@ -107,16 +116,16 @@
    }
 
 
-   function autosuggest(lookupTable,column)
+   function autosuggest(tbl,column)
    {
       // sanity check
-      if (!columnExists(lookupTable,column)) return [];
+      if (!columnExists(tbl,column)) return [];
 
       var row,i,j,hint;
       var ret={};
       var rev={};
-      var primary=getTablePrimary(lookupTable);
-      var rows=getTableRows(lookupTable);
+      var primary=getTablePrimary(tbl);
+      var rows=getTableRows(tbl);
 
       for (i=0; i<rows.length; i++)
       {
@@ -222,13 +231,6 @@
       refreshOptionsPosition(true);
    }
 
-   function maximum(rows,col)
-   {
-      var max=false;
-      for (var i=0; i<rows.length; i++) if (rows[i]) if (!max || max<rows[i][col]) max=rows[i][col];
-      return max;
-   }
-
 
    function refreshAllTables()
    {
@@ -256,8 +258,9 @@
       var tbl=t.data('table');
       var col=t.data('column');
       var id=t.closest('tr').data('primary');
-      var comment=col+'='+displayValue(g.tables[tbl]['columns'][col].linkto,id);
+      var comment=col+'='+displayValue(getColumn(tbl,col).linkto,id);
 
+      // TODO: reuse window if open for the same table (even if different filter?)
       var wid=createWindow(tbl,comment,genTableGridHTML(tbl,[{'column':col,'value':id}]));
       taskbarAdd(wid,tbl+' for '+comment);
    }
@@ -267,35 +270,25 @@
    {
       var cell=$(this);
       var tbl=cell.closest('.grid').data('table');
-      var row=cell.closest('tr').index()-1; // first row is header
+      var row=cell.closest('tr').data('primary');
       var col=cell.data('name');
       var link=cell.data('linkto');
       var grid=cell.closest('.grid');
       var val=cell.val();
-      var rows=getTableRows(tbl);
 
       if (link && ev!==true) val=displayValueKey(link,val);
+      if (link) cell.val(displayValue(link,val));
 
-      if (!rows[row]) rows[row]={};
-      rows[row][col]=val;
+      // TODO: if editing table with filter and new row was added, fill columns by filter
+      var primary=setTableCol(tbl,row,col,val);
 
       if (cell.closest('tr').hasClass('emptyrow'))
       {
-//TODO: if editing table with filter and new row was added, fill columns by filter
-         var primary=getTablePrimary(tbl);
-         if (col!=primary)
-         {
-            var p=parseInt(maximum(rows,primary))+1;
-            rows[row][primary]=p
-            cell.closest('tr').find('input[data-name="'+primary+'"]').val(p);
-            cell.closest('tr').attr('data-primary',p); // use attr so we can loopu [data-primary] in jquery selector later
-         }
+         cell.closest('tr').attr('data-primary',primary); // set data using attr here, so we can use [data-primary] jquery selector in refresh()
          cell.closest('tr').removeClass('emptyrow');
       }
 
       if (grid.find('.emptyrow').length<2) grid.append(unserialize(grid.data('emptyrow')));
-
-      if (link) cell.val(displayValue(link,val));
 
       // after table row update is complete, refresh all linked columns on other tables which link to this row
       refreshAllTables();
