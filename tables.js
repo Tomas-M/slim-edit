@@ -68,7 +68,7 @@
    }
 
 
-   function setTableCol(tbl,row,col,val)
+   function setTableCol(tbl,row,col,val,filter)
    {
       var rows=getTableRows(tbl);
       var primary=getTablePrimary(tbl);
@@ -84,6 +84,10 @@
       {
          rows[i]={};
          rows[i][primary]=max+1;
+
+         if (filter && !$.isEmptyObject(filter))
+            for(var j=0; j<filter.length; j++)
+               rows[i][filter[j]['column']]=filter[j]['value'];
       }
 
       rows[i][col]=val;

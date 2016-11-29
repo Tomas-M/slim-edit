@@ -2,11 +2,8 @@ okno fokus out by melo zrusit select
 select by melo zvyraznit aktualni hodnotu po rozkliknuti a naskrolovat na ni
 ovladani klavesama up/dn
 
-dlazdice by si meli zapamatovat puvodni pozici (manualni umisteni okna a velikosti) a umet se do ni vratit, pro vsechny okna
-
-
-close aktivniho okna neupdejtne taskbar
-
 dlazdicovej mod by nemel dovolit drag&resize. nebo jo?
 
-ulozena pozice okna by mela asi ulozit aj zindex a pod
+ulozena pozice okna by mela asi ulozit aj zindex a pod, a aktivni okno
+
+kdyz je okno closing (animace), nedovolit mu drag&drop

@@ -11,6 +11,7 @@
       });
 
       if (typeof ev === "undefined") ev=topwindow;
+      if (typeof ev === "undefined") return;
       if ($(ev.target).hasClass('window-title-button')) return;
       if ($(ev.target).closest('.window-title-button').length>0) return;
       if ($(ev.target).hasClass('taskname')) ev=$(ev.target).data('windowid');
@@ -40,6 +41,7 @@
       +'<div class="window-title-button window-close"><i class="fa fa-times"></i></div>'
       +'<div class="window-title-button window-maximize"><i class="fa fa-window-maximize"></i></div>'
       +'<div class=header>'+htmlspecialchars(title)+(subtitle?'<span class=subtitle> &nbsp;'+subtitle+'</span>':'')+'</div>'
+      
       +'<div class=content>'+contentHTML+'</div></div>';
       $('#desktop').append(html);
 
@@ -77,6 +79,14 @@
 
       putToFront(win);
       return wid;
+   }
+
+
+   function updateWindow(wid,title,subtitle,content)
+   {
+      win=getEl(wid);
+      win.find('.content').html(content);
+      win.find('.header').html(htmlspecialchars(title)+(subtitle?'<span class=subtitle> &nbsp;'+subtitle+'</span>':''));
    }
 
 
@@ -162,7 +172,7 @@
       var d=40;
       var sw=$(window).width();
       var sh=$(window).height();
-      var w=Math.floor(sw/2); if (w<800) w=800;
+      var w=Math.floor(sw/1.4); if (w<800) w=800;
       var h=Math.floor(sh/2);
 
       if (g.nextWindowPos.left+w>sw) g.nextWindowPos.left=60;

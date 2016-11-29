@@ -18,6 +18,12 @@
 #optionsinside::-webkit-scrollbar-track { background: repeating-linear-gradient(90deg,white,white 2px,#eeeeee 1px,#eeeeee);  }
 #optionsinside::-webkit-scrollbar-thumb { background: repeating-linear-gradient(90deg,white,white 2px,rgba(0,134,229,0.7) 1px,rgba(0,134,229,0.7)); }
 
+#leftmenu::-webkit-scrollbar-thumb { background: rgba(0,134,229,1); }
+
+.menu::-webkit-scrollbar { width: 11px; height: 6px; }
+.menu::-webkit-scrollbar-track { background: #eeeeee; }
+.menu::-webkit-scrollbar-thumb { background: repeating-linear-gradient(90deg,#eeeeee,#eeeeee 5px,rgba(0,134,229,0.7) 1px,rgba(0,134,229,0.7)); }
+.menu::-webkit-scrollbar-thumb:window-inactive { background: #eeeeee; }
 
 html,body
 {
@@ -39,6 +45,45 @@ body, td
 {
   font-size: 12px;
   font-family: verdana,tahoma,arial,helvetica,sans-serif;
+}
+
+#menuclose
+{
+   cursor: pointer;
+   font-size: 28px;
+   padding: 12px 22px 10px 22px;
+   position: absolute;
+   top: 0px;
+   left: 0px;
+}
+
+
+#leftmenu
+{
+   position: absolute;
+   width: 300px;
+   height: 100%;
+   left:-350px;
+   top:0;
+   background-color: #EFEFEF;
+   box-shadow: 3px 0px 3px rgba(0,0,0,0.3);
+   transition: all 400ms;
+   z-index: 999999999;
+
+}
+
+#leftmenu.open
+{
+   left: 0;
+}
+
+.menu
+{
+   margin: 0px 4px 0px 20px;
+   height: calc(100% - 65px);
+   overflow-x: hidden;
+   overflow-y: auto;
+   overflow-y: overlay;
 }
 
 .window
@@ -76,11 +121,16 @@ body, td
    font-weight: bold;
    cursor: move;
    border-bottom: 1px solid #fff;
+   margin-top: -3px;
 }
 
 .header .subtitle
 {
-   color: #aaa;
+   color: #ff0000;
+   position: absolute;
+   right: 70px;
+   white-space: nowrap;
+   font-weight: normal;
 }
 
 .window.topmost .header
@@ -101,7 +151,7 @@ body, div, span, li
 
 .content
 {
-   padding: 10px 14px 10px 14px;
+   padding: 5px 14px 10px 14px;
    height: calc(100% - 60px);
    overflow-y: auto;
    overflow-y: overlay;
@@ -278,13 +328,17 @@ body, div, span, li
    width: calc(100% - 4px);
    height: 26px;
    margin-left: 2px;
-   opacity: 0.3;
+   opacity: 0.6;
+   cursor: pointer;
+   border: 1px solid #aaa;
+   background: linear-gradient(to bottom, rgba(246,246,246,1) 0%, rgba(223,223,223,1) 100%);
+   border-radius: 3px;
+   outline: none;
 }
 
-.linkbutton:hover
+tr:hover .linkbutton
 {
    opacity:1;
-   cursor: pointer;
 }
 
 .emptyrow .linkbutton
@@ -292,3 +346,46 @@ body, div, span, li
    visibility: hidden;
 }
 
+.menu
+{
+   cursor: default;
+}
+
+.menu > ul
+{
+   margin:0; padding:0;
+}
+
+.menu > ul > li
+{
+   font-size: 20px;
+   list-style: none;
+}
+
+#tablelist {margin: 10px 0 0 10px; padding:0;}
+
+#tablelist li .fa
+{
+   font-size: 14px;
+   position: relative; top:1px;
+}
+
+#tablelist li
+{
+   margin: -4px 10px -4px 0px;
+   padding: 7px 0px 7px 10px;
+   list-style: none;
+   font-family: Verdana;
+}
+
+#tablelist li:hover
+{
+   cursor: pointer;
+   background-color: #0086E5;
+   color: #fff;
+}
+
+#tablelist li.active
+{
+   font-weight: bold;
+}

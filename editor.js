@@ -39,6 +39,22 @@
    }
 
 
+   function filterMatchRow(row,filter)
+   {
+      if (!filter || $.isEmptyObject(filter)) return true;
+      for (var i=0; i<filter.length; i++) if (row[filter[i]['column']]!=filter[i]['value']) return false;
+      return true;
+   }
+
+
+   function filterMatchCol(column,filter)
+   {
+      if (!filter || $.isEmptyObject(filter)) return false;
+      for (var i=0; i<filter.length; i++) if (filter[i]['column']==column) return true;
+      return false;
+   }
+
+
    function inputHTML(name,column,val)
    {
       if (column.linkto) val=displayValue(column.linkto,val);
@@ -54,7 +70,7 @@
    }
 
 
-   function genTableGridHTML(tbl)
+   function genTableGridHTML(tbl,filter)
    {
       var i,j,n;
       var emptyrow='<tr class=emptyrow>';
@@ -69,7 +85,7 @@
 
       n=0; for (i in cols) n++;
 
-      for (i in cols) if (cols[i]["display"]!='none')
+      for (i in cols) if (cols[i]["datatype"]!='longtext') if (cols[i]["display"]!='none') if (!filterMatchCol(i,filter))
       {
          thead+='<td style="width: '+(cols[i]["width"]?cols[i]["width"]:'auto')+'; text-align: '+(cols[i]["display"]?cols[i]["display"]:'initial')+';">'+htmlspecialchars(i)+'</td>';
          emptyrow+='<td><div class=aroundcell>'+inputHTML(i,cols[i],'')+'<div class=aftercell></div></div></td>';
@@ -86,12 +102,13 @@
       emptyrow+='</tr>';
 
       for (i in rows)
+      if (filterMatchRow(rows[i],filter))
       {
          if (!rows[i]) { data+=emptyrow; continue; }
 
          data+='<tr data-primary="'+htmlspecialchars(rows[i][primary])+'">';
 
-         for (j in cols) if (cols[j]["display"]!='none')
+         for (j in cols) if (cols[j]["datatype"]!='longtext') if (cols[j]["display"]!='none') if (!filterMatchCol(j,filter))
             data+='<td><div class=aroundcell>'+inputHTML(j,cols[j],rows[i][j])+'<div class=aftercell></div></div></td>';
 
          for (j in links)
@@ -100,7 +117,7 @@
          data+='</tr>';
       }
 
-      html='<table border=0 data-table="'+tbl+'" data-emptyrow="'+serialize(emptyrow)+'" cellspacing=0 cellpadding=0 class=grid>'+thead+data;
+      html='<table border=0 data-table="'+tbl+'" data-filter="'+serialize(filter)+'" data-emptyrow="'+serialize(emptyrow)+'" cellspacing=0 cellpadding=0 class=grid>'+thead+data;
       for (j=0; j<4; j++) html+=emptyrow; // add some empty rows at the end
       html+='</table>';
 
@@ -167,7 +184,7 @@
       {
          link=parseLink(link);
          options=autosuggest(link.table,link.column);
-         for (i in options) html+='<a href=# data-set="'+htmlspecialchars(i)+'" class="option '+(cell.val()==options[i]?"selected":"")+'" title="'+htmlspecialchars(options[i])+'">'+htmlspecialchars(options[i])+'</a>';
+         for (i in options) html+='<a href=# data-set="'+htmlspecialchars(i)+'" class="option '+(cell.val()==options[i]?"selected":"")+'" title="'+htmlspecialchars(options[i])+'">'+htmlspecialchars(options[i])+'&nbsp;</a>';
       }
 
       if (html)
@@ -234,6 +251,7 @@
 
    function refreshAllTables()
    {
+// TODO: if new row was added to current view, add it (note:filter)
       $('.grid').each(function(ix,el)
       {
          var tbl=$(el).data('table');
@@ -252,17 +270,50 @@
    }
 
 
+   function openTable()
+   {
+      var t=$(this);
+      var tbl=t.data('table');
+      var html=genTableGridHTML(tbl);
+
+      var ex=taskbarFindTitle(tbl);
+      if (ex)
+      {
+         updateWindow(ex,tbl,'',html);
+         putToFront(ex);
+      }
+      else
+      {
+         var w_id=createWindow(tbl,'',html);
+         taskbarAdd(w_id,tbl);
+      }
+
+      t.addClass('active');
+      menuHide();
+      
+   }
+
+
    function openSubtable()
    {
       var t=$(this);
       var tbl=t.data('table');
       var col=t.data('column');
       var id=t.closest('tr').data('primary');
-      var comment=col+'='+displayValue(getColumn(tbl,col).linkto,id);
+      var comment='('+displayValue(getColumn(tbl,col).linkto,id)+')';
+      var html=genTableGridHTML(tbl,[{'column':col,'value':id}]);
 
-      // TODO: reuse window if open for the same table (even if different filter?)
-      var wid=createWindow(tbl,comment,genTableGridHTML(tbl,[{'column':col,'value':id}]));
-      taskbarAdd(wid,tbl+' for '+comment);
+      var ex=taskbarFindTitle(tbl);
+      if (ex)
+      {
+         updateWindow(ex,tbl,comment,html);
+         putToFront(ex);
+      }
+      else
+      {
+         var wid=createWindow(tbl,comment,html);
+         taskbarAdd(wid,tbl);
+      }
    }
 
 
@@ -274,13 +325,13 @@
       var col=cell.data('name');
       var link=cell.data('linkto');
       var grid=cell.closest('.grid');
+      var filter=unserialize(grid.data('filter'));
       var val=cell.val();
 
       if (link && ev!==true) val=displayValueKey(link,val);
       if (link) cell.val(displayValue(link,val));
 
-      // TODO: if editing table with filter and new row was added, fill columns by filter
-      var primary=setTableCol(tbl,row,col,val);
+      var primary=setTableCol(tbl,row,col,val,filter);
 
       if (cell.closest('tr').hasClass('emptyrow'))
       {

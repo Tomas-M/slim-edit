@@ -23,7 +23,7 @@
 
    function taskbarAdd(id,title)
    {
-      $('#taskbar').append('<li class="taskname" data-windowid="'+id+'">'+htmlspecialchars(title)+'</li>');
+      $('#taskbar').append('<li class="taskname" data-windowid="'+id+'" data-title="'+htmlspecialchars(title)+'">'+htmlspecialchars(title)+'</li>');
       taskbarRefresh();
    }
 
@@ -35,7 +35,8 @@
    }
 
 
-   function menuToggle()
+   function taskbarFindTitle(title)
    {
-      
+      var f=$('#taskbar').find('li[data-title="'+title+'"]');
+      if (f.length>0) return f.data('windowid');
    }

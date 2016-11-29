@@ -22,6 +22,7 @@
 <script src="taskbar.js<?=$rev?>"></script>
 <script src="tables.js<?=$rev?>"></script>
 <script src="editor.js<?=$rev?>"></script>
+<script src="controls.js<?=$rev?>"></script>
 
 <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
 <link rel="stylesheet" type="text/css" href="custom.css<?=$rev?>">
@@ -30,8 +31,34 @@
 <body>
    <input id=hiddeninput style="position: fixed; top:-100px; left: -100px; opacity:1;">
 
+   <div id=leftmenu>
+      <i id=menuclose class="fa fa-chevron-left"></i>
+      <br><br><br>
+      <hr noshade size=1 color='#dddddd' style='margin: 5px 10px 5px 10px;'>
+      <br>
+      <div class=menu>
+        <ul>
+           <li>Project 1</li>
+              <ul id=tablelist>
+              </ul>
+           <br>
+           <li>Project 2</li>
+              <ul>
+              </ul>
+           <br>
+           <li>Project 3</li>
+              <ul>
+              </ul>
+           <br>
+
+        </ul>
+        
+      </div>
+      
+   </div>
+
    <div class=controls>
-      <li id=menubut><i class="fa fa-bars"></i></li><span id=taskbar></span><!--
+      <li id=menuopen><i class="fa fa-bars"></i></li><span id=taskbar></span><!--
    --><li id=tilebut class=right><i class="fa fa-th"></i></li><li id=userbut class=right><i class="fa fa-user-circle"></i></li>
    </div>
 
