@@ -72,7 +72,7 @@
       }
    ];
 
-   g.tables["ParamTypes"]["rows"]=
+   g.tables["ParameterTypes"]["rows"]=
    [
       { "ID":1,
         "Name": "unsigned integer",
@@ -106,6 +106,12 @@
    [
       { "ID":1,
         "Name":"Demo standard",
+        "Parent": 2,
         "Description":"Communication standard for demo application"
+      },
+      { "ID":2,
+        "Name":"Demo child standard",
+        "Parent": 1,
+        "Description":""
       }
    ];

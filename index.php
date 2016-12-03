@@ -33,9 +33,7 @@
 
    <div id=leftmenu>
       <i id=menuclose class="fa fa-chevron-left"></i>
-      <br><br><br>
-      <hr noshade size=1 color='#dddddd' style='margin: 5px 10px 5px 10px;'>
-      <br>
+      <div class=hline></div>
       <div class=menu>
         <ul>
            <li>Project 1</li>
@@ -59,7 +57,9 @@
 
    <div class=controls>
       <li id=menuopen><i class="fa fa-bars"></i></li><span id=taskbar></span><!--
-   --><li id=tilebut class=right><i class="fa fa-th"></i></li><li id=userbut class=right><i class="fa fa-user-circle"></i></li>
+   --><li id=tilebut class=right><i class="fa fa-th"></i></li><!--
+   --><li id=userbut class=right><i class="fa fa-user-circle"></i></li><!--
+   --><li id=progress class=right><i class="fa fa-refresh animated"></i></li>
    </div>
 
    <div id=desktop>

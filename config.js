@@ -10,8 +10,13 @@
     *             columns: {...},
     *             rows: [...],
     *             primary: "columnName",
-    *             showOnStartup: true/false
+    *             properties: {...}
     *          }
+    *
+    *     properties are:
+    *             showOnStartup: true/false
+    *             label: string to display instead of table name on buttons
+    *             version: table definition version, like 1.0
     *
     */
 
@@ -44,14 +49,17 @@
             "Description": {
                "datatype": "longtext"
             },
-            "Parent":{
+            "Parent": {
                "datatype": "integer",
                "linkto": "Standards.Name"
             }
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":true
+         "properties": {
+            "showOnStartup":true,
+            "version": 1.0
+         }
       },
 
       "Services": {
@@ -78,7 +86,10 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":false
+         "properties": {
+            "showOnStartup":false,
+            "version": 1.0
+         }
       },
 
       "Packets": {
@@ -125,7 +136,10 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":false
+         "properties": {
+            "showOnStartup":false,
+            "version": 1.0
+         }
       },
 
       "Parameters": {
@@ -141,7 +155,7 @@
             },
             "Type":{
                "datatype": "integer",
-               "linkto": "ParamTypes.Name"
+               "linkto": "ParameterTypes.Name"
             },
             "Name": {
                "datatype": "text"
@@ -171,10 +185,13 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":false
+         "properties": {
+            "showOnStartup":false,
+            "version": 1.0
+         }
       },
 
-      "ParamTypes":{
+      "ParameterTypes":{
          "columns":{
             "ID": {
                "datatype": "integer",
@@ -194,7 +211,12 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":false
+         "properties":
+         {
+            "showOnStartup":false,
+            "label": "Types",
+            "version": 1.0
+         }
       },
 
       "Limits":{
@@ -221,7 +243,10 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":false
+         "properties": {
+            "showOnStartup":false,
+            "version": 1.0
+         }
       },
 
       "Applications": {
@@ -240,7 +265,10 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":true
+         "properties": {
+            "showOnStartup":true,
+            "version": 1.0
+         }
       },
 
       "Processes": {
@@ -260,8 +288,10 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":false
-         
+         "properties": {
+            "showOnStartup":false,
+            "version": 1.0
+         }
       },
 
 
@@ -291,7 +321,12 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":false
+         "properties":
+         {
+            "showOnStartup":false,
+            "label": "Packets",
+            "version": 1.0
+         }
       },
 
 
@@ -320,11 +355,16 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":false
+         "properties":
+         {
+            "showOnStartup":false,
+            "label": "Packet Settings",
+            "version": 1.0
+         }
       },
 
 
-      "AppSettings": {
+      "ApplicationSettings": {
          "columns":{
             "ID": {
                "datatype": "integer",
@@ -345,7 +385,12 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":false
+         "properties":
+         {
+            "showOnStartup":false,
+            "label": "Settings",
+            "version": 1.0
+         }
       },
 
 
@@ -374,7 +419,10 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":false
+         "properties": {
+            "showOnStartup":false,
+            "version": 1.0
+         }
       },
 
 
@@ -397,11 +445,14 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":false
+         "properties": {
+            "showOnStartup":false,
+            "version": 1.0
+         }
       },
 
 
-      "AppComponents": {
+      "ApplicationComponents": {
          "columns":{
             "ID": {
                "datatype": "integer",
@@ -419,7 +470,12 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":false
+         "properties":
+         {
+            "showOnStartup":false,
+            "label": "Components",
+            "version": 1.0
+         }
       },
 
 
@@ -446,10 +502,13 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":false
+         "properties": {
+            "showOnStartup":false,
+            "version": 1.0
+         }
       },
 
-      "AppFeatures": {
+      "ApplicationFeatures": {
          "columns":{
             "ID": {
                "datatype": "integer",
@@ -467,7 +526,12 @@
          },
          "rows":[],
          "primary": "ID",
-         "showOnStartup":false
+         "properties":
+         {
+            "showOnStartup":false,
+            "label": "Features",
+            "version": 1.0
+         }
       }
 
    };

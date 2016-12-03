@@ -169,7 +169,7 @@
 
    function setWindowPosAuto(id,noEffect)
    {
-      var d=40;
+      var d=140;
       var sw=$(window).width();
       var sh=$(window).height();
       var w=Math.floor(sw/1.4); if (w<800) w=800;

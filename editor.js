@@ -70,6 +70,14 @@
    }
 
 
+   function tableLabel(tbl)
+   {
+      var tables=getTables();
+      if (tbl && tables[tbl] && tables[tbl]["properties"] && tables[tbl]["properties"]["label"]) return tables[tbl]["properties"]["label"];
+      else return tbl;
+   }
+
+
    function genTableGridHTML(tbl,filter)
    {
       var i,j,n;
@@ -93,8 +101,8 @@
 
       for (i in links)
       {
-         links[i].btn='<button class=linkbutton data-table="'+htmlspecialchars(links[i].table)+'" data-column="'+htmlspecialchars(links[i].column)+'">'+htmlspecialchars(links[i].table)+'</button>';
-         thead+='<td style="width:70px">'+htmlspecialchars(links[i].table)+'</td>';
+         links[i].btn='<button class=linkbutton data-table="'+htmlspecialchars(links[i].table)+'" data-column="'+htmlspecialchars(links[i].column)+'">'+htmlspecialchars(tableLabel(links[i].table))+'</button>';
+         thead+='<td style="width:70px">'+htmlspecialchars(tableLabel(links[i].table))+'</td>';
          emptyrow+='<td>'+links[i].btn+'</td>';
       }
 
@@ -128,7 +136,7 @@
    function cellValidate(ev)
    {
       var cell=$(this);
-      if (cell.data('linkto')){console.log(cell.data()); return;}// todo: in this case check link's datatype not cell's one
+      if (cell.data('linkto')) return; // todo: in this case check link's datatype not cell's one
       if (cell.data('datatype')=='integer') cell.val(cell.val().replace(/[^0-9]/g,''));
    }
 

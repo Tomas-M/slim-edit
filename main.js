@@ -8,13 +8,13 @@
 
       for (var tbl in tables)
       {
-         if (tables[tbl].showOnStartup)
+         if (tables[tbl].properties.showOnStartup)
          {
             var w_id=createWindow(tbl,'',genTableGridHTML(tbl));
             taskbarAdd(w_id,tbl);
          }
 
-         container.append('<li class="tablename '+(tables[tbl].showOnStartup?'active':'')+'" data-table="'+htmlspecialchars(tbl)+'"><i class="fa fa-table"></i> &nbsp;'+htmlspecialchars(tbl)+' ['+getTableRows(tbl).length+']</li>');
+         container.append('<li class="tablename '+(tables[tbl].properties.showOnStartup?'active':'')+'" data-table="'+htmlspecialchars(tbl)+'"><i class="fa fa-table"></i> &nbsp;'+htmlspecialchars(tbl)+(getTableRows(tbl).length>0?' ('+getTableRows(tbl).length+')':'')+'</li>');
       }
 
       var li = container.children('li');

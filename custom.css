@@ -65,11 +65,18 @@ body, td
    height: 100%;
    left:-350px;
    top:0;
-   background-color: #EFEFEF;
+   background-color: #eeeeee;
    box-shadow: 3px 0px 3px rgba(0,0,0,0.3);
    transition: all 400ms;
    z-index: 999999999;
 
+}
+
+.hline
+{
+   height: 50px;
+   border-bottom: 1px dashed #444;
+   margin: 0px 10px 40px 10px;
 }
 
 #leftmenu.open
@@ -336,7 +343,7 @@ body, div, span, li
    outline: none;
 }
 
-tr:hover .linkbutton
+.linkbutton:hover
 {
    opacity:1;
 }
@@ -389,3 +396,19 @@ tr:hover .linkbutton
 {
    font-weight: bold;
 }
+
+
+@keyframes spin
+{
+   0% { transform: rotate(0deg); }
+   100% { transform: rotate(359deg); }
+}
+
+.fa-refresh.animated
+{
+   animation: spin 1s linear infinite;
+}
+
+#progress { opacity: 0; transition: opacity 400ms; }
+#progress.visible { opacity: 1; }
+
