@@ -16,6 +16,7 @@
     *     properties are:
     *             showOnStartup: true/false
     *             label: string to display instead of table name on buttons
+    *             internal: true/false, internal table is not shown in menu
     *             version: table definition version, like 1.0
     *
     */
@@ -34,7 +35,7 @@
     *
     */
 
-   g.tables={
+   g.tablesDEF={
 
       "Standards": {
          "columns":{
@@ -215,6 +216,7 @@
          {
             "showOnStartup":false,
             "label": "Types",
+            "internal":true,
             "version": 1.0
          }
       },
@@ -421,6 +423,7 @@
          "primary": "ID",
          "properties": {
             "showOnStartup":false,
+            "internal":true,
             "version": 1.0
          }
       },
@@ -447,6 +450,7 @@
          "primary": "ID",
          "properties": {
             "showOnStartup":false,
+            "internal":true,
             "version": 1.0
          }
       },
@@ -504,6 +508,7 @@
          "primary": "ID",
          "properties": {
             "showOnStartup":false,
+            "internal":true,
             "version": 1.0
          }
       },

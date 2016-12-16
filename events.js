@@ -19,6 +19,14 @@
     $(document).on('click','.tablename',openTable);
     $(document).on('resize','.window',cellMoved);
 
+    $(document).on('click','.message',hideMsg);
+
+    $(document).on('click','#menulogin, #registerback',userShow);
+    $(document).on('click','#registerbut',registerButtonClick);
+    $(document).on('click','#login',function(){ login($('#username').val(),$('#pass').val(),userShow,true) });
+    $(document).on('click','#logout',function(ev){ ev.preventDefault(); logout(userShow,true); closeAllWindows(); });
+    $(document).on('click','#register',function(){ register($('#username').val(),$('#name').val(),function(res){ msg(res); userShow(); }) });
+
     $(document).on('change','.cell',cellValidate);
     $(document).on('change','.cell',cellSave);
     $(document).on('focus','.cell',cellFocus);
@@ -28,5 +36,9 @@
     $(window).on('blur',function(ev){ $('#hiddeninput').focus(); });
     $(window).on('resize',function(ev){ tileWindows(true); });
 
+    $(document).on('click','.projectheader',selectProject);
+
+
+    login_status(userShow,userShow);
     main();
   });

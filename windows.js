@@ -117,8 +117,9 @@
    }
 
 
-   function closeWindow(id)
+   function closeWindow(id,d)
    {
+      if (!d) d=g.effectDuration;
       var win=getEl(id,'window');
       win.css('opacity',0).addClass('closed').removeClass('topmost');
       if (!win.hasClass('persistent')) taskbarRemove(win);
@@ -127,11 +128,19 @@
       {
          if (win.hasClass('persistent')) win.css('display','none');
          else {  win.remove(); }
-      },g.effectDuration);
+      },d);
 
       putToFront();
       taskbarRefresh();
       tileWindows(true);
+   }
+
+   function closeAllWindows()
+   {
+      $('.window').each(function(ix,el)
+      {
+         closeWindow(el,1);
+      })
    }
 
 

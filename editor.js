@@ -351,4 +351,8 @@
 
       // after table row update is complete, refresh all linked columns on other tables which link to this row
       refreshAllTables();
+
+      // save to server
+      var data=JSON_toString(g.tables);
+      project_save(g.projectID,data);
    }

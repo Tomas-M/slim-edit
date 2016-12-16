@@ -23,6 +23,7 @@
 <script src="tables.js<?=$rev?>"></script>
 <script src="editor.js<?=$rev?>"></script>
 <script src="controls.js<?=$rev?>"></script>
+<script src="api.js<?=$rev?>"></script>
 
 <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
 <link rel="stylesheet" type="text/css" href="custom.css<?=$rev?>">
@@ -33,24 +34,11 @@
 
    <div id=leftmenu>
       <i id=menuclose class="fa fa-chevron-left"></i>
+      <span id=menutitle></span>
       <div class=hline></div>
       <div class=menu>
-        <ul>
-           <li>Project 1</li>
-              <ul id=tablelist>
-              </ul>
-           <br>
-           <li>Project 2</li>
-              <ul>
-              </ul>
-           <br>
-           <li>Project 3</li>
-              <ul>
-              </ul>
-           <br>
-
-        </ul>
-        
+         <div id=loginreg></div>
+         <ul id=projects></ul>
       </div>
       
    </div>
@@ -58,12 +46,12 @@
    <div class=controls>
       <li id=menuopen><i class="fa fa-bars"></i></li><span id=taskbar></span><!--
    --><li id=tilebut class=right><i class="fa fa-th"></i></li><!--
-   --><li id=userbut class=right><i class="fa fa-user-circle"></i></li><!--
    --><li id=progress class=right><i class="fa fa-refresh animated"></i></li>
    </div>
 
    <div id=desktop>
       <div id=options><div id=optionsinside></div></div>
+      <div id=messages></div>
    </div>
 
    <script src="main.js<?=$rev?>"></script>

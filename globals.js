@@ -14,3 +14,4 @@
    // definition of tables and optionally data
    g.tables={}; // actual structures are defined in config.js
    g.data={}; // initial data are defined in data.js. It may be empty
+

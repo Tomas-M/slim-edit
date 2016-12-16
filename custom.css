@@ -57,6 +57,16 @@ body, td
    left: 0px;
 }
 
+#menutitle
+{
+   position: absolute;
+   font-size: 18px;
+   right: 15px;
+   top: 13px;
+   border-radius: 5px;
+   white-space: nowrap;
+   color: #333;
+}
 
 #leftmenu
 {
@@ -76,7 +86,7 @@ body, td
 {
    height: 50px;
    border-bottom: 1px dashed #444;
-   margin: 0px 10px 40px 10px;
+   margin: 0px 10px 5px 10px;
 }
 
 #leftmenu.open
@@ -86,11 +96,12 @@ body, td
 
 .menu
 {
-   margin: 0px 4px 0px 20px;
+   margin: 0px 4px 0px 10px;
    height: calc(100% - 65px);
    overflow-x: hidden;
    overflow-y: auto;
    overflow-y: overlay;
+   color: #333;
 }
 
 .window
@@ -363,41 +374,6 @@ body, div, span, li
    margin:0; padding:0;
 }
 
-.menu > ul > li
-{
-   font-size: 20px;
-   list-style: none;
-}
-
-#tablelist {margin: 10px 0 0 10px; padding:0;}
-
-#tablelist li .fa
-{
-   font-size: 14px;
-   position: relative; top:1px;
-}
-
-#tablelist li
-{
-   margin: -4px 10px -4px 0px;
-   padding: 7px 0px 7px 10px;
-   list-style: none;
-   font-family: Verdana;
-}
-
-#tablelist li:hover
-{
-   cursor: pointer;
-   background-color: #0086E5;
-   color: #fff;
-}
-
-#tablelist li.active
-{
-   font-weight: bold;
-}
-
-
 @keyframes spin
 {
    0% { transform: rotate(0deg); }
@@ -412,3 +388,150 @@ body, div, span, li
 #progress { opacity: 0; transition: opacity 400ms; }
 #progress.visible { opacity: 1; }
 
+#loginreg { margin-top: 5px; margin-bottom: 20px; position: relative; }
+
+#loginreg input
+{
+   display: block;
+   margin-bottom: 5px;
+   border: 1px solid #555;
+   line-height: 20px;
+   padding: 5px 15px 5px 15px;
+   width: 280px;
+   box-sizing: border-box;
+}
+
+#loginreg button
+{
+   display: inline-block;
+   margin-bottom: 5px;
+   line-height: 20px;
+   padding: 5px 15px 5px 15px;
+}
+
+#loginreg button.link
+{
+   display: inline-block;
+   border: 1px solid #eeeeee;
+   background-color: #eeeeee;
+   cursor: pointer;
+   text-decoration: underline;
+}
+
+.signeduser
+{
+   font-size: 14px;
+   font-weight: bold;
+   position: absolute; left: 0;
+}
+
+#logout
+{
+   border: 1px solid #eeeeee;
+   background-color: #eeeeee;
+   cursor: pointer;
+   color: #0086E5;
+   margin-right: 10px;
+   position: absolute; right: 0;
+}
+
+#messages
+{
+   position: fixed;
+   bottom: 0px;
+   right: 0px;
+   margin: 20px;
+   z-index: 999999999;
+}
+
+.message
+{
+   margin: 10px;
+   padding: 30px;
+   background-color: #444444; color: #ffffff;
+   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+   width: 300px;
+   font-weight: normal;
+   margin-bottom: 25px;
+   transition: opacity 400ms;
+   opacity: 0;
+   font-size: 14px;
+   cursor: pointer;
+}
+.msgclose
+{
+   float: right;
+   color: #ffffff;
+   font-size: 20px;
+   position: relative; top: -26px; right: -20px;
+}
+
+.warning { background-color: #ff9800; color: #ffffff; }
+.danger { background-color: #f44336; color: #ffffff; }
+.success { background-color: #4CAF50; color: #ffffff; }
+.info { background-color: #2196F3; color: #ffffff; }
+
+#newproject, #newproject a
+{
+   text-decoration: none;
+   color: #0086E5;
+   font-size: 14px;
+   line-height: 30px;
+}
+
+#newproject:hover, #newproject:hover a
+{
+   background-color: #0086E5;
+   color: #fff;
+   cursor: pointer;
+}
+
+#projects > li
+{
+   font-size: 18px;
+   list-style: none;
+   margin: 0px; margin-right: 20px;
+   padding: 5px 10px 5px 10px;
+}
+
+#projects > li:hover
+{
+   background-color: #0086E5;
+   color: #fff;
+   cursor: pointer;
+}
+
+
+.tablelist {margin: 10px 0 10px 10px; padding:0; display: none;}
+
+.tablelist li .fa
+{
+   font-size: 14px;
+   position: relative; top:1px;
+}
+
+.tablelist li
+{
+   margin: -4px 10px -4px 0px;
+   padding: 7px 0px 7px 10px;
+   list-style: none;
+   font-family: Verdana;
+   font-size: 12px;
+}
+
+.tablelist li:hover
+{
+   cursor: pointer;
+   background-color: #0086E5;
+   color: #fff;
+}
+
+.tablelist li.active
+{
+   font-weight: bold;
+}
+
+.tablelist:empty
+{
+   display: none;
+}
