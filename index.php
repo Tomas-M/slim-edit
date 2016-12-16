@@ -22,7 +22,7 @@
 <script src="taskbar.js<?=$rev?>"></script>
 <script src="tables.js<?=$rev?>"></script>
 <script src="editor.js<?=$rev?>"></script>
-<script src="controls.js<?=$rev?>"></script>
+<script src="loadsave.js<?=$rev?>"></script>
 <script src="api.js<?=$rev?>"></script>
 
 <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
