@@ -259,7 +259,8 @@
 
    function refreshAllTables()
    {
-// TODO: if new row was added to current view, add it (note:filter)
+// TODO: if new row was added to current view, add it to all windows where it should be visible too (note:filter)
+// but for now, this is not needed, because we do not allow more than one window for each table.
       $('.grid').each(function(ix,el)
       {
          var tbl=$(el).data('table');
@@ -339,6 +340,7 @@
       if (link && ev!==true) val=displayValueKey(link,val);
       if (link) cell.val(displayValue(link,val));
 
+      // here the columns is actually updated in memory
       var primary=setTableCol(tbl,row,col,val,filter);
 
       if (cell.closest('tr').hasClass('emptyrow'))

@@ -3,7 +3,7 @@
 
    function main()
    {
-      msg('Welcome. Click top right corner for menu.');
+      msg('Welcome to CORDET FW Editor. Click top right corner for menu.');
       // clone master data
       g.tables=getNewTables();
    }

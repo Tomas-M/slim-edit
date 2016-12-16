@@ -34,7 +34,7 @@
    function list_projects()
    {
       $projects=[];
-      $result=execQuery("SELECT * FROM projects WHERE ownerID=".userID());
+      $result=execQuery("SELECT id,name FROM projects WHERE ownerID=".userID()." ORDER BY name");
       while($row=fetch_assoc($result)) $projects[]=$row;
       return $projects;
    }

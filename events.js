@@ -26,6 +26,7 @@
     $(document).on('click','#login',function(){ login($('#username').val(),$('#pass').val(),userShow,true) });
     $(document).on('click','#logout',function(ev){ ev.preventDefault(); logout(userShow,true); closeAllWindows(); });
     $(document).on('click','#register',function(){ register($('#username').val(),$('#name').val(),function(res){ msg(res); userShow(); }) });
+    $(document).on('click','#newproject',newProjectToggle);
 
     $(document).on('change','.cell',cellValidate);
     $(document).on('change','.cell',cellSave);
@@ -37,6 +38,7 @@
     $(window).on('resize',function(ev){ tileWindows(true); });
 
     $(document).on('click','.projectheader',selectProject);
+    $(document).on('click','#projectadd',addProject);
 
 
     login_status(userShow,userShow);

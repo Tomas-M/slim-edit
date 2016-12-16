@@ -24,9 +24,9 @@
       $.request('projects.php',{'action':'list'},successFn,failureFn);
    }
 
-   function project_add(name,successFn,failureFn)
+   function project_add(name,data,successFn,failureFn)
    {
-      $.request('projects.php',{'action':'add','name':name},successFn,failureFn);
+      $.request('projects.php',{'action':'add','name':name,'data':data},successFn,failureFn);
    }
 
    function project_rename(id,name,successFn,failureFn)

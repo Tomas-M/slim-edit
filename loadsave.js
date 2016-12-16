@@ -11,8 +11,20 @@
 
    function newProjectShow()
    {
-      var h='<input type=text id=projectname placeholder="Project Name"><button id=projectadd>Save</button>';
-      
+      $('#newprojectinputs').fadeIn(g.effectDuration);
+   }
+   
+   function newProjectHide()
+   {
+      $('#newprojectinputs').val('');
+      $('#newprojectinputs').fadeOut(g.effectDuration);
+   }
+
+   function newProjectToggle(ev)
+   {
+      if ($('#newprojectinputs').is(":visible")) newProjectHide();
+      else newProjectShow();
+      ev.preventDefault();
    }
 
 
@@ -52,8 +64,12 @@
          h+='<li class=projectheader data-projectid="'+projects[i].id+'"><i class="fa fa-bookmark"></i> '+htmlspecialchars(projects[i].name)+'</li>'+
          '<ul class=tablelist data-projectid="'+projects[i].id+'"></ul>';
       }
+
       h+='<li id=newproject><a href="#"><i class="fa fa-plus-circle"></i> create new project</a></li>';
+      h+='<div id=newprojectinputs><input type=text id=projectname placeholder="New Project Name"><button id=projectadd>Save</button></div>';
+
       $('#projects').html(h);
+      newProjectHide();
    }
 
 
@@ -102,6 +118,7 @@
       closeAllWindows();
       $('.tablelist[data-projectid!="'+id+'"]').slideUp();
       $('.projectheader[data-projectid!="'+id+'"]').removeClass('selected');
+      newProjectHide();
 
       // load project tables data
       project_load(id,function(res)
@@ -117,3 +134,8 @@
       });
    }
 
+
+   function addProject()
+   {
+      project_add($('#projectname').val(),JSON_toString(g.tablesDEF),projectsShow);
+   }

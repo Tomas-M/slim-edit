@@ -390,23 +390,28 @@ body, div, span, li
 
 #loginreg { margin-top: 5px; margin-bottom: 20px; position: relative; }
 
-#loginreg input
+#loginreg input, #newprojectinputs input
 {
    display: block;
    margin-bottom: 5px;
    border: 1px solid #555;
    line-height: 20px;
    padding: 5px 15px 5px 15px;
-   width: 280px;
+   width: 276px;
    box-sizing: border-box;
 }
 
-#loginreg button
+#loginreg button, #newprojectinputs button
 {
    display: inline-block;
    margin-bottom: 5px;
    line-height: 20px;
    padding: 5px 15px 5px 15px;
+}
+
+#newprojectinputs
+{
+   padding-top: 10px;
 }
 
 #loginreg button.link
@@ -438,7 +443,7 @@ body, div, span, li
 #messages
 {
    position: fixed;
-   bottom: 0px;
+   top: 50px;
    right: 0px;
    margin: 20px;
    z-index: 999999999;
@@ -490,17 +495,26 @@ body, div, span, li
 {
    font-size: 18px;
    list-style: none;
-   margin: 0px; margin-right: 20px;
+   margin: 5px 10px 0px 0px;
    padding: 5px 10px 5px 10px;
 }
 
-#projects > li:hover
+.projectheader
+{
+   background-color: #ddd;
+}
+
+#projects > li:hover, #projects > li.selected
 {
    background-color: #0086E5;
    color: #fff;
    cursor: pointer;
 }
 
+#projects > li.selected
+{
+   margin-top: 5px;
+}
 
 .tablelist {margin: 10px 0 10px 10px; padding:0; display: none;}
 
